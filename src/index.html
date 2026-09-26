@@ -1,0 +1,52 @@
+<title>租赁大亨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Saira+Condensed:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="style.css">
+
+<header class="toolbar">
+  <span class="l">Lessor Tycoon · 飞机租赁大富翁</span>
+  <div class="row">
+    <span class="eyebrow">AI 速度</span>
+    <div class="seg" id="speed" role="group" aria-label="AI 速度">
+      <button type="button" data-speed="slow">慢</button>
+      <button type="button" data-speed="mid">中</button>
+      <button type="button" data-speed="fast">快</button>
+      <button type="button" data-speed="instant">瞬间</button>
+    </div>
+    <button type="button" class="btn small ghost" id="btn-new">新游戏</button>
+  </div>
+</header>
+
+<main class="app">
+  <section class="board-wrap" aria-label="棋盘"><div class="board" id="board"></div></section>
+  <aside class="side">
+    <section class="panel decision" id="decision" aria-live="polite"></section>
+    <section class="panel" id="me"></section>
+    <section class="panel">
+      <div class="panel-h"><h2>排行 · NAV</h2><span class="eyebrow">$m</span></div>
+      <div class="players" id="players"></div>
+    </section>
+    <section class="panel">
+      <div class="panel-h"><h2>交易日志</h2><label class="eyebrow"><input type="checkbox" id="log-mine"> 只看我</label></div>
+      <div class="log" id="log"></div>
+    </section>
+  </aside>
+  <section class="tabs panel" id="tabs">
+    <div class="tabbar" role="tablist" id="tabbar">
+      <button type="button" role="tab" data-tab="fleet">我的机队</button>
+      <button type="button" role="tab" data-tab="airlines">航司</button>
+      <button type="button" role="tab" data-tab="market">机型与市场</button>
+      <button type="button" role="tab" data-tab="reports">季报</button>
+      <button type="button" role="tab" data-tab="rules">规则</button>
+    </div>
+    <div class="tabpane" id="tabpane"></div>
+  </section>
+</main>
+<div id="overlay"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script src="data.js"></script>
+<script src="engine.js"></script>
+<script src="ai.js"></script>
+<script src="ui.js"></script>

@@ -1,0 +1,3947 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+</head>
+<body>
+<title>租赁大亨</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&family=Saira+Condensed:wght@500;600;700&display=swap">
+<style>
+:root {
+  --paper: #edf1ed;
+  --paper-2: #e3e9e5;
+  --surface: #f8faf7;
+  --ink: #14283d;
+  --ink-2: #4a5d6f;
+  --ink-3: #7b8a97;
+  --line: #c3cdcf;
+  --line-2: #d8dfdf;
+  --accent: #a3246f;
+  --accent-ink: #ffffff;
+  --chart: #1f5f99;
+  --good: #2c7a4d;
+  --warn: #a86b12;
+  --bad: #b3261e;
+  --shadow: 0 1px 0 rgba(20, 40, 61, 0.06), 0 6px 24px -12px rgba(20, 40, 61, 0.25);
+
+  --g-AF: #8c5a3c;
+  --g-LA: #2f9cc0;
+  --g-EA: #c0508a;
+  --g-IN: #e0842a;
+  --g-SE: #cf3f36;
+  --g-CN: #c9a21c;
+  --g-EU: #3a955a;
+  --g-NA: #2c4f9e;
+  --g-ME: #6b4ba8;
+
+  --p0: #a3246f;
+  --p1: #0f7c8c;
+  --p2: #5b5fc7;
+  --p3: #b26b00;
+
+  --f-display: 'Saira Condensed', 'Noto Sans SC', 'PingFang SC', system-ui, sans-serif;
+  --f-body: 'Noto Sans SC', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', system-ui, sans-serif;
+  --f-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --paper: #0d151f;
+    --paper-2: #121d29;
+    --surface: #152232;
+    --ink: #dce6ee;
+    --ink-2: #9fb0bf;
+    --ink-3: #6f8293;
+    --line: #2b3b4c;
+    --line-2: #213041;
+    --accent: #e06aa8;
+    --accent-ink: #1a0b13;
+    --chart: #6fa8dc;
+    --good: #5cc38a;
+    --warn: #e0a64a;
+    --bad: #f07167;
+    --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.6);
+    --g-AF: #b07a58;
+    --g-LA: #52b6d8;
+    --g-EA: #db72a6;
+    --g-IN: #f0a050;
+    --g-SE: #ea665d;
+    --g-CN: #e2c04a;
+    --g-EU: #5cb57a;
+    --g-NA: #6d8fe0;
+    --g-ME: #9b7ad6;
+    --p0: #e06aa8;
+    --p1: #3fb6c4;
+    --p2: #8f93f0;
+    --p3: #e0a040;
+  }
+}
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #0d151f;
+  --paper-2: #121d29;
+  --surface: #152232;
+  --ink: #dce6ee;
+  --ink-2: #9fb0bf;
+  --ink-3: #6f8293;
+  --line: #2b3b4c;
+  --line-2: #213041;
+  --accent: #e06aa8;
+  --accent-ink: #1a0b13;
+  --chart: #6fa8dc;
+  --good: #5cc38a;
+  --warn: #e0a64a;
+  --bad: #f07167;
+  --shadow: 0 1px 0 rgba(0, 0, 0, 0.3), 0 8px 28px -12px rgba(0, 0, 0, 0.6);
+  --g-AF: #b07a58;
+  --g-LA: #52b6d8;
+  --g-EA: #db72a6;
+  --g-IN: #f0a050;
+  --g-SE: #ea665d;
+  --g-CN: #e2c04a;
+  --g-EU: #5cb57a;
+  --g-NA: #6d8fe0;
+  --g-ME: #9b7ad6;
+  --p0: #e06aa8;
+  --p1: #3fb6c4;
+  --p2: #8f93f0;
+  --p3: #e0a040;
+}
+
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  background: var(--paper);
+  color: var(--ink);
+}
+body {
+  margin: 0;
+  font: 14px/1.5 var(--f-body);
+  padding-inline: 16px;
+  padding-block: 16px 40px;
+  background-image: linear-gradient(var(--line-2) 1px, transparent 1px), linear-gradient(90deg, var(--line-2) 1px, transparent 1px);
+  background-size: 48px 48px;
+  background-position: -1px -1px;
+}
+button,
+input,
+select {
+  font: inherit;
+  color: inherit;
+}
+.num,
+.mono {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---------- 布局 ---------- */
+.app {
+  max-width: 1320px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  grid-template-areas:
+    'board side'
+    'tabs side';
+  gap: 16px 20px;
+  align-items: start;
+}
+.board-wrap {
+  grid-area: board;
+  container-type: inline-size;
+}
+.side {
+  grid-area: side;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: calc(env(safe-area-inset-top, 0px) + 12px);
+}
+.tabs {
+  grid-area: tabs;
+  min-width: 0;
+}
+@media (max-width: 1080px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'board' 'side' 'tabs';
+  }
+  .side {
+    position: static;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+}
+.panel-h {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid var(--line-2);
+}
+.panel-h h2 {
+  margin: 0;
+  font: 600 13px/1.2 var(--f-body);
+  letter-spacing: 0.08em;
+  color: var(--ink-2);
+}
+.panel-b {
+  padding: 12px 14px;
+}
+.eyebrow {
+  font: 600 11px/1.2 var(--f-display);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ---------- 棋盘 ---------- */
+.board {
+  display: grid;
+  grid-template-columns: 1.45fr repeat(10, 1fr) 1.45fr;
+  grid-template-rows: 1.45fr repeat(10, 1fr) 1.45fr;
+  aspect-ratio: 1;
+  width: 100%;
+  max-width: 100%;
+  background: var(--ink);
+  gap: 1px;
+  border: 1px solid var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.cell {
+  position: relative;
+  background: var(--surface);
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  padding: 0 3px 2px;
+  font-size: 10px;
+  line-height: 1.15;
+  cursor: default;
+}
+.cell .strip {
+  display: block;
+  height: 18%;
+  margin: 0 -3px 2px;
+  background: var(--line);
+}
+.cell .code {
+  font: 700 clamp(9px, 1.9cqi, 17px) / 1 var(--f-display);
+  letter-spacing: 0.02em;
+}
+.cell .nm {
+  font-size: clamp(7px, 1.05cqi, 10px);
+  color: var(--ink-2);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.cell .meta {
+  margin-top: auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  font: 600 clamp(7px, 1.05cqi, 10px) / 1 var(--f-mono);
+}
+.rt {
+  padding: 1px 3px;
+  border-radius: 2px;
+  background: var(--paper-2);
+  color: var(--ink-2);
+}
+.rt.r0 {
+  color: var(--good);
+}
+.rt.r3,
+.rt.r4 {
+  color: var(--bad);
+}
+.rt.rD {
+  background: var(--bad);
+  color: #fff;
+}
+.cell.owned {
+  box-shadow: inset 0 -4px 0 var(--owner);
+}
+.cell .own {
+  color: var(--owner, var(--ink-3));
+  white-space: nowrap;
+}
+.cell.special {
+  justify-content: center;
+  text-align: center;
+  background: var(--paper-2);
+}
+.cell.special .code {
+  font-size: clamp(8px, 1.5cqi, 14px);
+}
+.cell.corner {
+  background: var(--paper);
+  justify-content: center;
+  text-align: center;
+  padding: 4px;
+}
+.cell.corner .code {
+  font-size: clamp(10px, 2.3cqi, 22px);
+}
+.cell.corner .nm {
+  white-space: normal;
+}
+.cell.dim {
+  opacity: 0.55;
+}
+.cell.here {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
+  z-index: 1;
+}
+.tokens {
+  position: absolute;
+  inset: auto 2px 6px auto;
+  display: flex;
+  gap: 1px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  max-width: 70%;
+}
+.tok {
+  width: clamp(7px, 1.7cqi, 15px);
+  height: clamp(7px, 1.7cqi, 15px);
+  border-radius: 50%;
+  background: var(--c);
+  border: 1.5px solid var(--surface);
+  box-shadow: 0 0 0 1px var(--c);
+  transition: transform 0.2s;
+}
+.tok.me {
+  transform: scale(1.15);
+}
+@container (max-width: 560px) {
+  .cell .nm,
+  .cell .meta .rt {
+    display: none;
+  }
+  .cell {
+    padding: 0 1px;
+  }
+  .cell .code {
+    font-size: 8.5px;
+  }
+  .cell.corner .code {
+    font-size: 9px;
+  }
+  .cell.corner .nm {
+    display: none;
+  }
+}
+
+/* 棋盘中央 */
+.center {
+  grid-area: 2 / 2 / 12 / 12;
+  background: var(--paper);
+  display: grid;
+  grid-template-rows: auto auto minmax(0, 1fr) auto;
+  gap: clamp(6px, 1.4cqi, 14px);
+  padding: clamp(8px, 2.2cqi, 22px);
+  min-height: 0;
+  overflow: hidden;
+  position: relative;
+  background-image: radial-gradient(circle at 50% 55%, transparent 0 22%, var(--line-2) 22% calc(22% + 1px), transparent calc(22% + 1px) 38%, var(--line-2) 38% calc(38% + 1px), transparent calc(38% + 1px));
+}
+.brand {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.brand h1 {
+  margin: 0;
+  font: 700 clamp(18px, 5cqi, 46px) / 1 var(--f-body);
+  letter-spacing: 0.04em;
+  text-wrap: balance;
+}
+.brand .en {
+  font: 600 clamp(9px, 1.6cqi, 14px) / 1 var(--f-display);
+  letter-spacing: 0.32em;
+  color: var(--accent);
+}
+.instruments {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.inst {
+  background: var(--surface);
+  padding: clamp(3px, 0.9cqi, 8px) clamp(4px, 1.1cqi, 10px);
+  min-width: 0;
+}
+.inst .v {
+  font: 600 clamp(11px, 2.4cqi, 22px) / 1.1 var(--f-mono);
+  white-space: nowrap;
+}
+.inst .eyebrow {
+  font-size: clamp(7px, 1.1cqi, 11px);
+}
+.stage {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(8px, 2cqi, 20px);
+  min-height: 0;
+  align-items: start;
+}
+.dice {
+  display: flex;
+  gap: clamp(4px, 1cqi, 10px);
+}
+.die {
+  width: clamp(24px, 6.4cqi, 58px);
+  aspect-ratio: 1;
+  border-radius: 18%;
+  background: var(--surface);
+  border: 1.5px solid var(--ink);
+  display: grid;
+  grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+  padding: 14%;
+}
+.die i {
+  width: 70%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--ink);
+  place-self: center;
+  visibility: hidden;
+}
+.die i.on {
+  visibility: visible;
+}
+.die.rolling {
+  animation: shake 0.35s;
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: rotate(0);
+  }
+  30% {
+    transform: rotate(-14deg);
+  }
+  60% {
+    transform: rotate(10deg);
+  }
+}
+.turn-who {
+  margin-top: clamp(4px, 1cqi, 10px);
+  font-size: clamp(9px, 1.4cqi, 13px);
+  color: var(--ink-2);
+}
+.turn-who b {
+  color: var(--ink);
+}
+.card {
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  border-radius: 4px;
+  padding: clamp(6px, 1.4cqi, 14px);
+  min-height: 0;
+  overflow: auto;
+  max-height: 100%;
+  position: relative;
+}
+.card .deck {
+  font: 600 clamp(8px, 1.1cqi, 11px) / 1 var(--f-display);
+  letter-spacing: 0.16em;
+  color: var(--accent);
+}
+.card h3 {
+  margin: clamp(2px, 0.6cqi, 6px) 0 clamp(2px, 0.5cqi, 6px);
+  font: 700 clamp(11px, 2.2cqi, 20px) / 1.2 var(--f-body);
+  text-wrap: balance;
+}
+.card p {
+  margin: 0;
+  font-size: clamp(9px, 1.35cqi, 13px);
+  color: var(--ink-2);
+}
+.card.fresh {
+  animation: pop 0.4s ease-out;
+}
+@keyframes pop {
+  from {
+    transform: translateY(6px);
+    opacity: 0.4;
+  }
+}
+.recent {
+  margin-top: clamp(4px, 1cqi, 10px);
+  font-size: clamp(8px, 1.2cqi, 12px);
+  color: var(--ink-2);
+  display: grid;
+  gap: 2px;
+}
+.recent div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.legend {
+  display: grid;
+  gap: 4px;
+  font-size: clamp(8px, 1.15cqi, 11.5px);
+  color: var(--ink-2);
+}
+.legend div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
+}
+.legend span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  white-space: nowrap;
+}
+.legend i {
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.legend i.round {
+  border-radius: 50%;
+}
+@container (max-width: 560px) {
+  .legend,
+  .brand .en,
+  .recent,
+  .card p {
+    display: none;
+  }
+  .instruments {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* ---------- 我的公司 ---------- */
+.me-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+}
+.kv .eyebrow {
+  display: block;
+  margin-bottom: 2px;
+}
+.kv .v {
+  font: 600 17px/1.15 var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+.kv .v small {
+  font-size: 11px;
+  color: var(--ink-3);
+  font-weight: 400;
+}
+.kv.big .v {
+  font-size: 22px;
+}
+.v.good {
+  color: var(--good);
+}
+.v.bad {
+  color: var(--bad);
+}
+.v.warn {
+  color: var(--warn);
+}
+.spark {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 40px;
+}
+
+/* ---------- 决策面板 ---------- */
+.decision {
+  border-color: var(--ink);
+}
+.decision.mine {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent), var(--shadow);
+}
+.decision .panel-h h2 {
+  color: var(--ink);
+}
+.decision.mine .panel-h h2 {
+  color: var(--accent);
+}
+.dec-title {
+  font: 700 18px/1.25 var(--f-body);
+  margin: 0 0 4px;
+  text-wrap: balance;
+}
+.dec-sub {
+  color: var(--ink-2);
+  font-size: 13px;
+  margin: 0 0 10px;
+}
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.stack {
+  display: grid;
+  gap: 10px;
+}
+.btn {
+  appearance: none;
+  border: 1px solid var(--ink);
+  background: var(--surface);
+  color: var(--ink);
+  padding: 7px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  line-height: 1.2;
+}
+.btn:hover:not(:disabled) {
+  background: var(--paper-2);
+}
+.btn.primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--accent-ink);
+  font-weight: 700;
+}
+.btn.primary:hover:not(:disabled) {
+  filter: brightness(1.08);
+  background: var(--accent);
+}
+.btn.ghost {
+  border-color: var(--line);
+  color: var(--ink-2);
+}
+.btn.small {
+  padding: 3px 8px;
+  font-size: 12px;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.btn.big {
+  padding: 11px 18px;
+  font-size: 16px;
+}
+.field {
+  display: grid;
+  gap: 4px;
+}
+.field > label,
+.field > .eyebrow {
+  font: 600 11px/1.2 var(--f-display);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.chip {
+  appearance: none;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 12px;
+  cursor: pointer;
+  line-height: 1.2;
+}
+.chip small {
+  color: var(--ink-3);
+  font-family: var(--f-mono);
+}
+.chip[aria-pressed='true'] {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--surface);
+}
+.chip[aria-pressed='true'] small {
+  color: var(--line);
+}
+.chip:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+input[type='range'] {
+  width: 100%;
+  accent-color: var(--accent);
+}
+input[type='text'],
+input[type='number'],
+select {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: 4px;
+  padding: 6px 8px;
+  min-width: 0;
+}
+.slider-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+.slider-row output {
+  font: 600 13px var(--f-mono);
+  min-width: 7ch;
+  text-align: right;
+}
+.quote {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 14px;
+  border-top: 1px solid var(--line-2);
+  padding-top: 8px;
+}
+.quote div {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 3px 0;
+  border-bottom: 1px dotted var(--line-2);
+  font-size: 12.5px;
+}
+.quote div span:first-child {
+  color: var(--ink-2);
+}
+.quote div span:last-child {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.gauge {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+}
+.gauge .bar {
+  height: 8px;
+  background: var(--paper-2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+.gauge .bar i {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.15s;
+}
+.gauge b {
+  font: 700 20px var(--f-mono);
+}
+.note {
+  font-size: 12px;
+  color: var(--ink-2);
+  background: var(--paper-2);
+  border-left: 3px solid var(--warn);
+  padding: 6px 9px;
+  border-radius: 0 3px 3px 0;
+}
+.note.bad {
+  border-left-color: var(--bad);
+}
+.note.good {
+  border-left-color: var(--good);
+}
+.airline-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.airline-head .badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 4px;
+  background: var(--gc);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font: 700 18px var(--f-display);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+.airline-head .t {
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 1.2;
+}
+.airline-head .s {
+  font-size: 12px;
+  color: var(--ink-2);
+}
+.list {
+  display: grid;
+  gap: 6px;
+  max-height: 320px;
+  overflow: auto;
+}
+.list-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  align-items: center;
+  padding: 6px 8px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  font-size: 12.5px;
+}
+.list-item .sub {
+  color: var(--ink-2);
+  font-size: 11.5px;
+}
+.waiting {
+  color: var(--ink-2);
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--c, var(--accent));
+  animation: pulse 1s infinite;
+}
+@keyframes pulse {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* ---------- 玩家 ---------- */
+.players {
+  display: grid;
+  gap: 1px;
+  background: var(--line-2);
+}
+.pl {
+  display: grid;
+  grid-template-columns: 12px minmax(0, 1fr) auto;
+  gap: 4px 10px;
+  align-items: center;
+  padding: 8px 14px;
+  background: var(--surface);
+}
+.pl .dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--c);
+}
+.pl .n {
+  font-weight: 600;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pl .n small {
+  color: var(--ink-3);
+  font-weight: 400;
+}
+.pl .navv {
+  font: 600 14px var(--f-mono);
+  text-align: right;
+}
+.pl .d {
+  grid-column: 2 / -1;
+  font: 11.5px var(--f-mono);
+  color: var(--ink-2);
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.pl.cur {
+  background: var(--paper-2);
+}
+.pl.dead {
+  opacity: 0.45;
+  text-decoration: line-through;
+}
+
+/* ---------- 日志 ---------- */
+.log {
+  max-height: 260px;
+  overflow: auto;
+  padding: 6px 14px 10px;
+  font-size: 12.5px;
+  display: grid;
+  gap: 3px;
+}
+.log div {
+  padding-left: 8px;
+  border-left: 2px solid transparent;
+}
+.log .k-deal {
+  border-left-color: var(--good);
+}
+.log .k-bad {
+  border-left-color: var(--bad);
+}
+.log .k-fee {
+  border-left-color: var(--warn);
+}
+.log .k-card {
+  border-left-color: var(--accent);
+}
+.log .k-sys {
+  color: var(--ink-3);
+  font-family: var(--f-mono);
+  font-size: 11.5px;
+}
+.log .k-roll {
+  color: var(--ink-3);
+}
+.log .mine {
+  font-weight: 500;
+}
+.log .who {
+  color: var(--c);
+  font-weight: 700;
+}
+
+/* ---------- 标签页 ---------- */
+.tabbar {
+  display: flex;
+  gap: 2px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+.tabbar button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 9px 14px;
+  cursor: pointer;
+  color: var(--ink-2);
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.tabbar button[aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--accent);
+  font-weight: 700;
+}
+.tabpane {
+  padding: 12px 14px 16px;
+}
+.tbl-wrap {
+  overflow-x: auto;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 12.5px;
+}
+th,
+td {
+  text-align: left;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--line-2);
+  white-space: nowrap;
+}
+th {
+  font: 600 11px/1.2 var(--f-display);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  position: sticky;
+  top: 0;
+  background: var(--surface);
+}
+td.r,
+th.r {
+  text-align: right;
+}
+td.num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
+}
+tr.idle td {
+  color: var(--warn);
+}
+.gdot {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--gc);
+  margin-right: 6px;
+  vertical-align: 0;
+}
+.empty {
+  color: var(--ink-3);
+  padding: 18px 0;
+  text-align: center;
+}
+.rules {
+  max-width: 72ch;
+  font-size: 13.5px;
+}
+.rules h3 {
+  font-size: 15px;
+  margin: 18px 0 6px;
+}
+.rules h3:first-child {
+  margin-top: 0;
+}
+.rules p,
+.rules li {
+  color: var(--ink-2);
+}
+.rules code {
+  font-family: var(--f-mono);
+  font-size: 12.5px;
+  background: var(--paper-2);
+  padding: 1px 4px;
+  border-radius: 3px;
+  color: var(--ink);
+}
+.rules table {
+  margin: 6px 0;
+}
+
+/* ---------- 顶部工具条 ---------- */
+.toolbar {
+  max-width: 1320px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.toolbar .l {
+  font: 600 12px var(--f-display);
+  letter-spacing: 0.2em;
+  color: var(--ink-3);
+  text-transform: uppercase;
+}
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  overflow: hidden;
+  background: var(--surface);
+}
+.seg button {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 4px 9px;
+  font-size: 12px;
+  cursor: pointer;
+  color: var(--ink-2);
+}
+.seg button[aria-pressed='true'] {
+  background: var(--ink);
+  color: var(--surface);
+}
+
+/* ---------- 覆盖层 ---------- */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--paper) 82%, transparent);
+  backdrop-filter: blur(3px);
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  z-index: 50;
+  overflow: auto;
+}
+.sheet {
+  width: min(560px, 100%);
+  background: var(--surface);
+  border: 1px solid var(--ink);
+  border-radius: 6px;
+  box-shadow: var(--shadow);
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+.sheet h2 {
+  margin: 0;
+  font: 700 26px/1.15 var(--f-body);
+  text-wrap: balance;
+}
+.sheet .en {
+  font: 600 12px var(--f-display);
+  letter-spacing: 0.32em;
+  color: var(--accent);
+}
+.sheet p {
+  margin: 0;
+  color: var(--ink-2);
+}
+.rank {
+  display: grid;
+  gap: 6px;
+}
+.rank div {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto;
+  gap: 10px;
+  align-items: center;
+  padding: 8px 10px;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+}
+.rank div:first-child {
+  border-color: var(--accent);
+}
+.rank .pos {
+  font: 700 18px var(--f-display);
+}
+.toast {
+  position: fixed;
+  left: 50%;
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 20px);
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--surface);
+  padding: 9px 16px;
+  border-radius: 4px;
+  font-size: 13px;
+  z-index: 60;
+  max-width: calc(100% - 32px);
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@media (max-width: 480px) {
+  .me-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .quote {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+</style>
+
+<header class="toolbar">
+  <span class="l">Lessor Tycoon · 飞机租赁大富翁</span>
+  <div class="row">
+    <span class="eyebrow">AI 速度</span>
+    <div class="seg" id="speed" role="group" aria-label="AI 速度">
+      <button type="button" data-speed="slow">慢</button>
+      <button type="button" data-speed="mid">中</button>
+      <button type="button" data-speed="fast">快</button>
+      <button type="button" data-speed="instant">瞬间</button>
+    </div>
+    <button type="button" class="btn small ghost" id="btn-new">新游戏</button>
+  </div>
+</header>
+
+<main class="app">
+  <section class="board-wrap" aria-label="棋盘"><div class="board" id="board"></div></section>
+  <aside class="side">
+    <section class="panel decision" id="decision" aria-live="polite"></section>
+    <section class="panel" id="me"></section>
+    <section class="panel">
+      <div class="panel-h"><h2>排行 · NAV</h2><span class="eyebrow">$m</span></div>
+      <div class="players" id="players"></div>
+    </section>
+    <section class="panel">
+      <div class="panel-h"><h2>交易日志</h2><label class="eyebrow"><input type="checkbox" id="log-mine"> 只看我</label></div>
+      <div class="log" id="log"></div>
+    </section>
+  </aside>
+  <section class="tabs panel" id="tabs">
+    <div class="tabbar" role="tablist" id="tabbar">
+      <button type="button" role="tab" data-tab="fleet">我的机队</button>
+      <button type="button" role="tab" data-tab="airlines">航司</button>
+      <button type="button" role="tab" data-tab="market">机型与市场</button>
+      <button type="button" role="tab" data-tab="reports">季报</button>
+      <button type="button" role="tab" data-tab="rules">规则</button>
+    </div>
+    <div class="tabpane" id="tabpane"></div>
+  </section>
+</main>
+<div id="overlay"></div>
+<div id="toast" class="toast" hidden></div>
+
+<script>
+// 《租赁大亨》静态数据：机型、航司、棋盘、事件卡。纯数据，无 DOM。
+(function (root) {
+  const LT = (root.LT = root.LT || {});
+
+  // 评级阶梯：0=A 1=BBB 2=BB 3=B 4=CCC；D=违约重组中；X=制裁
+  const RATINGS = ['A', 'BBB', 'BB', 'B', 'CCC'];
+  const CREDIT = {
+    // LRF 信用溢价、季度违约概率（正常周期）、SLB 出售意愿
+    prem: [-0.06, 0, 0.06, 0.13, 0.22],
+    pd: [0.001, 0.003, 0.008, 0.02, 0.045],
+    // 二手交易平台带租约出售时，买方对信用的价格调整
+    bid: [0.04, 0.02, 0, -0.04, -0.08],
+  };
+
+  const CYCLES = [
+    { id: 'boom', name: '繁荣', lrf: 1.06, pd: 0.6, spread: -0.0025, drift: 0.008, ext: 0.15, up: 0.25, down: 0.06 },
+    { id: 'normal', name: '平稳', lrf: 1.0, pd: 1.0, spread: 0, drift: 0.0, ext: 0, up: 0.12, down: 0.12 },
+    { id: 'down', name: '下行', lrf: 0.95, pd: 1.6, spread: 0.0075, drift: -0.012, ext: -0.1, up: 0.06, down: 0.25 },
+    { id: 'crisis', name: '危机', lrf: 0.88, pd: 2.5, spread: 0.0175, drift: -0.03, ext: -0.2, up: 0.03, down: 0.4 },
+  ];
+  // 每季度周期转移概率 [boom, normal, down, crisis]
+  const CYCLE_TRANS = [
+    [0.85, 0.13, 0.02, 0.0],
+    [0.07, 0.86, 0.07, 0.0],
+    [0.0, 0.14, 0.8, 0.06],
+    [0.0, 0.05, 0.3, 0.65],
+  ];
+
+  // newPrice: 新机市场价值 $m；k: 年化价值衰减；age0: 二手机初始机龄；lrf: 月租金率因子
+  const TYPES = {
+    A320N: { name: 'A320neo', cat: 'NB', oem: 'airbus', newPrice: 52, k: 0.035, age0: 0, lrf: 0.0075, engines: ['LEAP-1A', 'PW1100G'], mr: 0.15, msn: [10200, 12600] },
+    A321N: { name: 'A321neo', cat: 'NB', oem: 'airbus', newPrice: 62, k: 0.035, age0: 0, lrf: 0.0074, engines: ['LEAP-1A', 'PW1100G'], mr: 0.15, msn: [10200, 12600] },
+    B38M: { name: '737 MAX 8', cat: 'NB', oem: 'boeing', newPrice: 50, k: 0.036, age0: 0, lrf: 0.0076, engines: ['LEAP-1B'], mr: 0.15, msn: [60100, 68900] },
+    C919: { name: 'C919', cat: 'NB', oem: 'comac', newPrice: 50, k: 0.05, age0: 0, lrf: 0.0079, engines: ['LEAP-1C'], mr: 0.15, msn: [10010, 10300] },
+    E295: { name: 'E195-E2', cat: 'RJ', oem: 'embraer', newPrice: 40, k: 0.045, age0: 0, lrf: 0.0082, engines: ['PW1900G'], mr: 0.15, msn: [19020001, 19020400] },
+    AT76: { name: 'ATR 72-600', cat: 'TP', oem: null, newPrice: 25, k: 0.04, age0: 0, lrf: 0.0088, engines: ['PW127M'], mr: 0.18, msn: [1500, 1750] },
+    A339: { name: 'A330-900', cat: 'WB', oem: 'airbus', newPrice: 110, k: 0.045, age0: 0, lrf: 0.0068, engines: ['Trent 7000'], mr: 0.12, msn: [1800, 2300] },
+    B789: { name: '787-9', cat: 'WB', oem: 'boeing', newPrice: 135, k: 0.045, age0: 0, lrf: 0.0066, engines: ['GEnx-1B', 'Trent 1000'], mr: 0.12, msn: [62000, 67500] },
+    A359: { name: 'A350-900', cat: 'WB', oem: 'airbus', newPrice: 145, k: 0.044, age0: 0, lrf: 0.0064, engines: ['Trent XWB-84'], mr: 0.12, msn: [400, 780] },
+    B738: { name: '737-800', cat: 'NB', oem: 'boeing', newPrice: 50, k: 0.051, age0: 14, lrf: 0.0105, engines: ['CFM56-7B'], mr: 0.2, msn: [38000, 41900] },
+    A20C: { name: 'A320ceo', cat: 'NB', oem: 'airbus', newPrice: 50, k: 0.047, age0: 13, lrf: 0.01, engines: ['CFM56-5B', 'V2527-A5'], mr: 0.2, msn: [5400, 6300] },
+    B77W: { name: '777-300ER', cat: 'WB', oem: 'boeing', newPrice: 160, k: 0.0846, age0: 12, lrf: 0.0098, engines: ['GE90-115B'], mr: 0.18, msn: [42000, 44600] },
+  };
+  const NEW_TYPES = ['A320N', 'A321N', 'B38M', 'C919', 'E295', 'AT76', 'A339', 'B789', 'A359'];
+  const GTF = ['PW1100G', 'PW1900G'];
+
+  // 区域（= 大富翁颜色组），fee: 竞标失败成本的区域系数
+  const GROUPS = {
+    AF: { name: '非洲', fee: 1.0 },
+    LA: { name: '拉美', fee: 1.1 },
+    EA: { name: '欧亚', fee: 1.2 },
+    IN: { name: '印度', fee: 1.3 },
+    SE: { name: '东南亚', fee: 1.4 },
+    CN: { name: '中国', fee: 1.5 },
+    EU: { name: '欧洲', fee: 1.6 },
+    NA: { name: '北美', fee: 1.8 },
+    ME: { name: '中东', fee: 2.0 },
+  };
+
+  // rating: RATINGS 下标；cap: 单一出租人可在该航司放置的飞机上限
+  const AIRLINES = {
+    KQ: { name: 'Kenya Airways', cn: '肯尼亚航空', g: 'AF', rating: 3, cap: 3, types: ['B38M', 'E295', 'B789', 'B738'] },
+    ET: { name: 'Ethiopian', cn: '埃塞俄比亚航空', g: 'AF', rating: 2, cap: 4, types: ['B38M', 'A359', 'B789', 'AT76'] },
+    AV: { name: 'Avianca', cn: '哥伦比亚航空', g: 'LA', rating: 3, cap: 3, types: ['A320N', 'A20C'] },
+    AM: { name: 'Aeroméxico', cn: '墨西哥航空', g: 'LA', rating: 2, cap: 3, types: ['B38M', 'B789', 'B738'] },
+    LA: { name: 'LATAM', cn: '南美航空', g: 'LA', rating: 2, cap: 4, types: ['A320N', 'A321N', 'B789'] },
+    SU: { name: 'Aeroflot', cn: '俄罗斯航空', g: 'EA', rating: 2, cap: 4, types: ['A320N', 'A321N', 'A20C', 'B77W'], sanctionRisk: true },
+    PC: { name: 'Pegasus', cn: '飞马航空', g: 'EA', rating: 2, cap: 4, types: ['A320N', 'A321N'] },
+    TK: { name: 'Turkish Airlines', cn: '土耳其航空', g: 'EA', rating: 1, cap: 5, types: ['A321N', 'B38M', 'A359', 'B789'] },
+    SG: { name: 'SpiceJet', cn: '香料航空', g: 'IN', rating: 4, cap: 3, types: ['B38M', 'B738'] },
+    AI: { name: 'Air India', cn: '印度航空', g: 'IN', rating: 2, cap: 5, types: ['A320N', 'A321N', 'A359', 'B789', 'B77W'] },
+    '6E': { name: 'IndiGo', cn: '靛蓝航空', g: 'IN', rating: 1, cap: 6, types: ['A320N', 'A321N', 'AT76'] },
+    GA: { name: 'Garuda Indonesia', cn: '印尼鹰航', g: 'SE', rating: 4, cap: 3, types: ['A339', 'B38M', 'B77W', 'B738'] },
+    VJ: { name: 'VietJet', cn: '越捷航空', g: 'SE', rating: 3, cap: 4, types: ['A321N', 'A339', 'B38M'] },
+    AK: { name: 'AirAsia', cn: '亚洲航空', g: 'SE', rating: 3, cap: 4, types: ['A320N', 'A321N'] },
+    MU: { name: 'China Eastern', cn: '东方航空', g: 'CN', rating: 0, cap: 5, types: ['A320N', 'A321N', 'C919', 'A359', 'B789'] },
+    CZ: { name: 'China Southern', cn: '南方航空', g: 'CN', rating: 0, cap: 5, types: ['A320N', 'A321N', 'C919', 'B38M', 'B789'] },
+    CA: { name: 'Air China', cn: '中国国航', g: 'CN', rating: 0, cap: 5, types: ['A320N', 'A321N', 'C919', 'A359', 'B77W'] },
+    W6: { name: 'Wizz Air', cn: '维兹航空', g: 'EU', rating: 2, cap: 5, types: ['A321N'], engine: 'PW1100G' },
+    LH: { name: 'Lufthansa', cn: '汉莎航空', g: 'EU', rating: 1, cap: 5, types: ['A320N', 'A321N', 'A359', 'B789'] },
+    FR: { name: 'Ryanair', cn: '瑞安航空', g: 'EU', rating: 0, cap: 6, types: ['B38M'] },
+    AA: { name: 'American Airlines', cn: '美国航空', g: 'NA', rating: 2, cap: 6, types: ['A321N', 'B38M', 'B789', 'A20C', 'B738'] },
+    UA: { name: 'United Airlines', cn: '美联航', g: 'NA', rating: 2, cap: 6, types: ['A321N', 'B38M', 'B789'] },
+    DL: { name: 'Delta Air Lines', cn: '达美航空', g: 'NA', rating: 1, cap: 6, types: ['A321N', 'A339', 'A359', 'A20C'] },
+    QR: { name: 'Qatar Airways', cn: '卡塔尔航空', g: 'ME', rating: 0, cap: 5, types: ['A359', 'B77W', 'B789', 'B38M'] },
+    EK: { name: 'Emirates', cn: '阿联酋航空', g: 'ME', rating: 0, cap: 5, types: ['B77W', 'A359', 'B789'] },
+  };
+
+  const OEMS = {
+    airbus: { name: 'Airbus', cn: '空客', slots: 4, price: 8 },
+    boeing: { name: 'Boeing', cn: '波音', slots: 4, price: 8 },
+    comac: { name: 'COMAC', cn: '中国商飞', slots: 3, price: 4.5 },
+    embraer: { name: 'Embraer', cn: '巴航工业', slots: 3, price: 4 },
+  };
+  const ENGINES = {
+    cfm: { name: 'CFM International', cn: 'CFM 备发平台', price: 15, income: 0.5 },
+    pw: { name: 'Pratt & Whitney', cn: '普惠备发平台', price: 15, income: 0.5 },
+  };
+
+  // 44 格棋盘，四角为 0/11/22/33
+  const BOARD = [
+    { t: 'go', name: '都柏林', sub: '起点 · 季度路演' },
+    { t: 'airline', id: 'KQ' },
+    { t: 'cc', name: '公司内部' },
+    { t: 'airline', id: 'ET' },
+    { t: 'tax', id: 'wht', name: '预提税', sub: 'WHT' },
+    { t: 'oem', id: 'airbus' },
+    { t: 'airline', id: 'AV' },
+    { t: 'ch', name: '市场快讯' },
+    { t: 'airline', id: 'AM' },
+    { t: 'airline', id: 'LA' },
+    { t: 'market', name: '二手交易平台', sub: '买卖飞机' },
+    { t: 'jail', name: '合规审查', sub: '仅路过' },
+    { t: 'airline', id: 'SU' },
+    { t: 'engine', id: 'cfm' },
+    { t: 'airline', id: 'PC' },
+    { t: 'airline', id: 'TK' },
+    { t: 'oem', id: 'boeing' },
+    { t: 'airline', id: 'SG' },
+    { t: 'cc', name: '公司内部' },
+    { t: 'airline', id: 'AI' },
+    { t: 'airline', id: '6E' },
+    { t: 'ch', name: '市场快讯' },
+    { t: 'airshow', name: '航展', sub: '远程签约一次' },
+    { t: 'airline', id: 'GA' },
+    { t: 'ch', name: '市场快讯' },
+    { t: 'airline', id: 'VJ' },
+    { t: 'airline', id: 'AK' },
+    { t: 'oem', id: 'comac' },
+    { t: 'airline', id: 'MU' },
+    { t: 'airline', id: 'CZ' },
+    { t: 'engine', id: 'pw' },
+    { t: 'airline', id: 'CA' },
+    { t: 'cc', name: '公司内部' },
+    { t: 'gotojail', name: 'KYC 触发', sub: '前往合规审查' },
+    { t: 'airline', id: 'W6' },
+    { t: 'airline', id: 'LH' },
+    { t: 'airline', id: 'FR' },
+    { t: 'oem', id: 'embraer' },
+    { t: 'airline', id: 'AA' },
+    { t: 'airline', id: 'UA' },
+    { t: 'airline', id: 'DL' },
+    { t: 'airline', id: 'QR' },
+    { t: 'tax', id: 'ins', name: '保险续保', sub: 'Contingent Hull' },
+    { t: 'airline', id: 'EK' },
+  ];
+
+  // 市场快讯（Chance）与公司内部（Community Chest）；效果在 engine.js 里按 id 实现
+  const CHANCE = [
+    { id: 'pandemic', title: '全球疫情暴发', text: '周期转入危机；接下来 2 个季度租金延付 50%（之后分期补缴）；全部机型价值 −8%；B 级及以下航司下调一档。' },
+    { id: 'sanction', title: '对俄制裁生效', text: '俄罗斯航空（Aeroflot）的全部租赁飞机被扣留无法收回。贷款仍需偿还；保险索赔约 6 个季度后赔付机队价值的 55%。' },
+    { id: 'gtf', title: 'GTF 粉末冶金召回', text: '装配 PW1100G / PW1900G 的飞机价值 −10%；大量使用 GTF 的航司（IndiGo、Wizz Air）下调一档。' },
+    { id: 'max', title: '737 MAX 停飞', text: '737 MAX 8 价值 −15%；波音交付位冻结 4 个季度。' },
+    { id: 'hike', title: '美联储加息 75bp', text: 'SOFR 上升 0.75%。浮动利率贷款成本立刻上升，而固定租金不变。' },
+    { id: 'cut', title: '美联储降息 50bp', text: 'SOFR 下降 0.50%。' },
+    { id: 'nbshort', title: '窄体机供应紧张', text: '主机厂交付延误，全部窄体机价值 +8%。' },
+    { id: 'wbsoft', title: '宽体机需求疲软', text: '长航线复苏放缓，全部宽体机价值 −8%。' },
+    { id: '777x', title: '777X 再次延误', text: '777-300ER 延寿需求上升，价值 +12%。' },
+    { id: 'oil', title: '油价飙升', text: 'B 级及以下航司全部下调一档；周期有 50% 概率恶化一级。' },
+    { id: 'recovery', title: '旅游需求强劲复苏', text: '周期改善一级；每家航司有 35% 概率上调一档。' },
+    { id: 'c919', title: 'C919 获 EASA 认证推进', text: 'C919 价值 +10%，流动性改善。' },
+    { id: 'restructure', title: '航司重组潮', text: '随机一家 B 级及以下的航司立刻申请破产保护（Chapter 11）。' },
+    { id: 'capetown', title: '开普敦公约执行强化', text: '此后所有飞机收回成本减半。' },
+    { id: 'delay', title: '主机厂交付延误', text: 'A320neo / A321neo / 737 MAX 8 价值 +6%；每个交付位持有者获赔 $1m / 个。' },
+    { id: 'usd', title: '美元大幅走强', text: '非洲、拉美、印度、东南亚的航司各有 40% 概率下调一档。' },
+    { id: 'saf', title: '欧盟 SAF 与碳税新规', text: '老旧机型（737-800、A320ceo、777-300ER）价值 −10%。' },
+    { id: 'appraisal', title: '评估机构上调残值', text: '全部机型价值 +4%。' },
+  ];
+  const COMMUNITY = [
+    { id: 'rcf', title: '信贷委员会批准扩额', text: '循环信用额度（RCF）增加 $20m。' },
+    { id: 'advisory', title: '顾问费收入', text: '为航司做 SLB 结构咨询，收入 $2m。' },
+    { id: 'legal', title: '法律纠纷', text: '租约条款争议，律师费 $1.5m。' },
+    { id: 'records', title: '技术记录缺失', text: '随机一架自有飞机的 back-to-birth 记录不全，价值 −6%。' },
+    { id: 'upgrade', title: '惠誉上调公司评级', text: '此后新增贷款利差 −25bp。' },
+    { id: 'downgrade', title: '穆迪下调公司评级', text: '此后新增贷款利差 +25bp。' },
+    { id: 'jail', title: '触发 KYC 复核', text: '直接前往合规审查，不经过都柏林。' },
+    { id: 'dublin', title: '回都柏林总部述职', text: '前进到都柏林，领取路演收入。' },
+    { id: 'poached', title: '同事被挖角', text: '交接与招聘成本 $1m。' },
+    { id: 'referral', title: '同行转介客户', text: '下一次签约的成交概率 +15%。' },
+    { id: 'dividend', title: '股东要求分红', text: '支付现金的 5%（最多 $5m）。' },
+    { id: 'equity', title: '股东增资', text: '获得 $10m 新股本。' },
+    { id: 'insurance', title: '保险理赔到账', text: '收到 $1.5m。' },
+    { id: 'pass', title: '合规通行证', text: '保留此卡，可免费离开合规审查一次。' },
+  ];
+
+  const AI_PROFILES = {
+    aercap: { name: 'AerCap', cn: '爱尔开普', minRating: 3, lrfRatio: 0.97, ltv: 0.75, reserve: 10, acceptPremium: 1.05, bold: 0.8 },
+    smbc: { name: 'SMBC Aviation Capital', cn: '三井住友航空', minRating: 2, lrfRatio: 1.0, ltv: 0.65, reserve: 20, acceptPremium: 1.15, bold: 0.35 },
+    avolon: { name: 'Avolon', cn: '阿沃隆', minRating: 2, lrfRatio: 0.99, ltv: 0.72, reserve: 15, acceptPremium: 1.1, bold: 0.55 },
+    boca: { name: 'BOC Aviation', cn: '中银航空租赁', minRating: 2, lrfRatio: 0.98, ltv: 0.7, reserve: 15, acceptPremium: 1.1, bold: 0.6, prefer: 'CN' },
+  };
+
+  LT.data = { RATINGS, CREDIT, CYCLES, CYCLE_TRANS, TYPES, NEW_TYPES, GTF, GROUPS, AIRLINES, OEMS, ENGINES, BOARD, CHANCE, COMMUNITY, AI_PROFILES };
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+<script>
+// 《租赁大亨》规则引擎：纯逻辑、纯 JSON 状态、种子随机数。
+// 所有决策都通过 state.pending 暴露，人类（UI）和 AI 都调用 act(state, choice) 作答。
+(function (root) {
+  const LT = (root.LT = root.LT || {});
+  const D = LT.data;
+  const { TYPES, AIRLINES, GROUPS, BOARD, CREDIT, CYCLES, CYCLE_TRANS, OEMS, ENGINES, RATINGS } = D;
+
+  const BOARD_N = BOARD.length;
+  const JAIL_POS = BOARD.findIndex((s) => s.t === 'jail');
+  const GO_BONUS = 4;
+  const BID_COST = 0.3;
+  const JAIL_FEE = 1;
+  const MAX_SIGN_PER_VISIT = 2;
+  const COVENANT = 0.85;
+  const r2 = (x) => Math.round(x * 100) / 100;
+
+  // ---------- RNG ----------
+  function rand(s) {
+    let t = (s.rng = (s.rng + 0x6d2b79f5) | 0);
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  }
+  const randInt = (s, a, b) => a + Math.floor(rand(s) * (b - a + 1));
+  function shuffle(s, arr) {
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(rand(s) * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    return a;
+  }
+
+  // ---------- 时间 / 日志 ----------
+  const qLabel = (s, q = s.q) => `${s.startYear + Math.floor(q / 4)} Q${(q % 4) + 1}`;
+  function log(s, text, p = null, kind = 'info') {
+    s.log.push({ q: s.q, p, text, kind });
+    if (s.log.length > 500) s.log.splice(0, s.log.length - 500);
+  }
+  const fmt = (x) => `$${(Math.round(x * 10) / 10).toFixed(1)}m`;
+
+  // ---------- 新游戏 ----------
+  function newGame(opts = {}) {
+    const seed = opts.seed != null ? opts.seed >>> 0 : (Math.random() * 2 ** 32) >>> 0;
+    const s = {
+      v: 1,
+      seed,
+      rng: seed,
+      q: 0,
+      startYear: 2027,
+      maxQ: (opts.years || 10) * 4,
+      players: [],
+      airlines: {},
+      oems: {},
+      engines: {},
+      market: { sofr: 0.035, cycle: 1, idx: {}, eng: {}, deferral: 0, capeTown: false, sanctionDone: false, maxFrozenUntil: -1 },
+      aircraft: {},
+      nextId: 1,
+      msnUsed: {},
+      decks: {},
+      turn: { p: 0, doubles: 0, remoteUsed: false, roll: null, extraRoll: false },
+      phase: 'turnStart',
+      pending: null,
+      log: [],
+      events: [],
+      reports: [],
+      over: false,
+      winner: null,
+      endOnHumanBankrupt: opts.endOnHumanBankrupt !== false,
+    };
+    for (const t in TYPES) s.market.idx[t] = 1;
+    for (const e of D.GTF) s.market.eng[e] = 0.98; // GTF 发动机飞机价值略低、交易更便宜
+    for (const id in AIRLINES) s.airlines[id] = { rating: AIRLINES[id].rating, lessor: null, framework: false, defaultUntil: null, sanctioned: false };
+    for (const id in OEMS) s.oems[id] = { owner: null, slots: 0 };
+    for (const id in ENGINES) s.engines[id] = { owner: null };
+
+    const startCash = opts.startCash || 150;
+    const seats = opts.players || [
+      { name: opts.humanName || '长空租赁', human: true },
+      { ai: 'aercap' },
+      { ai: 'smbc' },
+      { ai: 'avolon' },
+    ];
+    seats.forEach((seat, i) => {
+      const prof = seat.ai ? D.AI_PROFILES[seat.ai] : null;
+      s.players.push({
+        id: i,
+        name: seat.name || (prof ? prof.name : `玩家${i + 1}`),
+        cn: prof ? prof.cn : seat.name || '',
+        human: !!seat.human,
+        ai: seat.ai || null,
+        acceptPremium: prof ? prof.acceptPremium : 1.1,
+        cash: startCash,
+        rcf: 0,
+        rcfLimit: 30,
+        pos: 0,
+        jail: 0,
+        passCard: false,
+        spreadAdj: 0,
+        referral: false,
+        bankrupt: false,
+        stranded: [],
+        receivables: [],
+        breach: 0,
+        stats: { deals: 0, dealValue: 0, rent: 0, mr: 0, feeIn: 0, feeOut: 0, interest: 0, events: 0, defaultsHit: 0, bids: 0, bidsWon: 0, sold: 0 },
+      });
+    });
+    s.decks.ch = shuffle(s, D.CHANCE.map((c) => c.id));
+    s.decks.cc = shuffle(s, D.COMMUNITY.map((c) => c.id));
+    log(s, `${qLabel(s)} 开局。每家公司初始股本 ${fmt(startCash)}，RCF 额度 $30m。SOFR ${(s.market.sofr * 100).toFixed(2)}%。`, null, 'sys');
+    return s;
+  }
+
+  // ---------- 估值 ----------
+  function ageNow(s, ac) {
+    return ac.age + (s.q - ac.acqQ) / 4;
+  }
+  function typeValue(s, typeId, age, engine) {
+    const T = TYPES[typeId];
+    const e = engine && s.market.eng[engine] != null ? s.market.eng[engine] : 1;
+    return T.newPrice * Math.exp(-T.k * age) * s.market.idx[typeId] * e;
+  }
+  function mv(s, ac) {
+    return typeValue(s, ac.type, ageNow(s, ac), ac.engine) * (ac.haircut || 1);
+  }
+  const ownedAircraft = (s, p) => Object.values(s.aircraft).filter((a) => a.owner === p);
+  const fleetValue = (s, p) => ownedAircraft(s, p).reduce((t, a) => t + mv(s, a), 0);
+  function totalDebt(s, p) {
+    const pl = s.players[p];
+    return ownedAircraft(s, p).reduce((t, a) => t + (a.loan ? a.loan.principal : 0), 0) + pl.rcf + pl.stranded.reduce((t, d) => t + d.principal, 0);
+  }
+  function leverage(s, p) {
+    const assets = fleetValue(s, p) + Math.max(0, s.players[p].cash);
+    const debt = totalDebt(s, p);
+    if (debt <= 0) return 0;
+    return assets > 0 ? debt / assets : 9;
+  }
+  function isIG(s, p) {
+    return leverage(s, p) < 0.65 && ownedAircraft(s, p).length >= 6 && s.players[p].breach === 0;
+  }
+  function nav(s, p) {
+    const pl = s.players[p];
+    let v = pl.cash - pl.rcf;
+    for (const a of ownedAircraft(s, p)) {
+      v += mv(s, a);
+      if (a.loan) v -= a.loan.principal;
+      if (a.lease) v -= a.lease.deposit + a.lease.mrBal;
+    }
+    for (const d of pl.stranded) v -= d.principal;
+    for (const r of pl.receivables) v += r.amount;
+    for (const id in s.engines) if (s.engines[id].owner === p) v += ENGINES[id].price * 0.8;
+    for (const id in s.oems) if (s.oems[id].owner === p) v += s.oems[id].slots * (OEMS[id].price / OEMS[id].slots) * 0.5;
+    return v;
+  }
+  const rcfAvail = (s, p) => Math.max(0, s.players[p].rcfLimit - s.players[p].rcf);
+
+  // ---------- 航司 / 区域 ----------
+  const airlineFleet = (s, p, id) => ownedAircraft(s, p).filter((a) => a.lease && a.lease.airline === id);
+  const rentAt = (s, p, id) => airlineFleet(s, p, id).reduce((t, a) => t + a.lease.rentQ, 0);
+  function dominates(s, p, g) {
+    return Object.keys(AIRLINES).filter((id) => AIRLINES[id].g === g).every((id) => s.airlines[id].lessor === p);
+  }
+  function airlineOpen(s, id) {
+    const a = s.airlines[id];
+    return !a.sanctioned && a.defaultUntil == null;
+  }
+  function relock(s, id) {
+    const a = s.airlines[id];
+    const owners = new Set(Object.values(s.aircraft).filter((x) => x.lease && x.lease.airline === id).map((x) => x.owner));
+    if (a.lessor != null && !owners.has(a.lessor)) {
+      a.lessor = owners.size ? [...owners][0] : null;
+      a.framework = false;
+    }
+  }
+  function landingFee(s, id) {
+    const a = s.airlines[id];
+    if (a.lessor == null) return 0;
+    let fee = 0.9 * rentAt(s, a.lessor, id) * GROUPS[AIRLINES[id].g].fee;
+    if (a.framework) fee *= 1.5;
+    if (dominates(s, a.lessor, AIRLINES[id].g)) fee *= 1.5;
+    return Math.max(0.3, fee);
+  }
+
+  // ---------- 市场报价 ----------
+  function termOptions(typeId, age) {
+    return age < 3 ? [6, 8, 10, 12] : [3, 5, 7];
+  }
+  const TERM_ADJ = { 3: 1.04, 5: 1.02, 7: 1.0, 6: 1.03, 8: 1.0, 10: 0.98, 12: 0.96 };
+  function marketLrf(s, typeId, airlineId, term, age) {
+    const T = TYPES[typeId];
+    const rating = Math.min(4, s.airlines[airlineId].rating);
+    const cyc = CYCLES[s.market.cycle];
+    const rateAdj = 1 + (s.market.sofr - 0.035) * 6;
+    const ageAdj = age >= 8 ? 1 : 1 + age * 0.0; // 二手机的 LRF 已在机型参数里
+    return T.lrf * (1 + CREDIT.prem[rating]) * cyc.lrf * (TERM_ADJ[term] || 1) * rateAdj * ageAdj;
+  }
+  function financeTerms(s, p, kind, isNew, typeId) {
+    const pl = s.players[p];
+    const cyc = CYCLES[s.market.cycle];
+    const lev = leverage(s, p);
+    const levAdj = lev > 0.75 ? 0.005 : 0;
+    switch (kind) {
+      case 'cash':
+        return { ok: true, maxLtv: 0, spread: 0, amort: 0, fee: 0, label: '全现金' };
+      case 'bank':
+        return { ok: true, maxLtv: 0.75, spread: 0.02 + cyc.spread + pl.spreadAdj + levAdj, amort: 0.012, fee: 0.005, label: '银行担保贷款' };
+      case 'unsecured':
+        return { ok: isIG(s, p), why: '需投资级（杠杆 < 65% 且机队 ≥ 6 架）', maxLtv: 0.7, spread: 0.014 + cyc.spread * 0.8 + pl.spreadAdj, amort: 0.004, fee: 0.0025, label: '无担保债券' };
+      case 'eca': {
+        const T = TYPES[typeId];
+        const ok = isNew && T.oem !== 'comac';
+        return { ok, why: '仅限新机（不含 C919）', maxLtv: 0.85, spread: 0.011 + pl.spreadAdj, amort: 0.018, fee: 0.04, label: 'ECA 担保' };
+      }
+    }
+    return { ok: false, why: '未知融资方式' };
+  }
+
+  // 统一报价：人类界面和 AI 共用。params: {airline, type, engine, source, aircraftId, term, ratio, finance, ltv}
+  function quote(s, p, params) {
+    const pl = s.players[p];
+    const A = s.airlines[params.airline];
+    const AD = AIRLINES[params.airline];
+    const q = { ok: false };
+    if (!A || !airlineOpen(s, params.airline)) return { ok: false, why: '航司不可签约' };
+    if (A.lessor != null && A.lessor !== p) return { ok: false, why: '该航司已被其他出租人锁定' };
+    if (airlineFleet(s, p, params.airline).length >= AD.cap) return { ok: false, why: '已达该航司机队上限' };
+
+    let typeId = params.type;
+    let age = 0;
+    let idle = null;
+    if (params.source === 'idle') {
+      idle = s.aircraft[params.aircraftId];
+      if (!idle || idle.owner !== p || idle.lease) return { ok: false, why: '闲置飞机不可用' };
+      typeId = idle.type;
+      age = ageNow(s, idle);
+    } else {
+      if (!TYPES[typeId]) return { ok: false, why: '机型无效' };
+      age = TYPES[typeId].age0;
+    }
+    const T = TYPES[typeId];
+    if (!AD.types.includes(typeId)) return { ok: false, why: `${AD.name} 不运营 ${T.name}` };
+    const isNew = age < 1;
+    const engine = idle ? idle.engine : params.engine || T.engines[0];
+    if (!T.engines.includes(engine)) return { ok: false, why: '发动机选项无效' };
+    if (AD.engine && !idle && engine !== AD.engine) return { ok: false, why: `${AD.name} 只接受 ${AD.engine}` };
+    const terms = termOptions(typeId, age);
+    const term = terms.includes(params.term) ? params.term : terms[1];
+
+    const value = typeValue(s, typeId, age, engine) * (idle ? idle.haircut || 1 : 1);
+    let price = value;
+    let lrfMult = 1;
+    let acceptBonus = 0;
+    const src = params.source || 'spot';
+    if (src === 'spot') price = value * 1.02;
+    else if (src === 'slot') {
+      const o = s.oems[T.oem];
+      if (!isNew || !o || o.owner !== p || o.slots < 1) return { ok: false, why: '没有可用交付位' };
+      if (T.oem === 'boeing' && s.q < s.market.maxFrozenUntil && typeId === 'B38M') return { ok: false, why: 'MAX 停飞期间交付位冻结' };
+      price = value * 0.88;
+    } else if (src === 'slb') {
+      if (!isNew) return { ok: false, why: 'SLB 仅限新机' };
+      price = value;
+      lrfMult = 0.96;
+      acceptBonus += 0.12;
+    } else if (src === 'idle') {
+      price = 0;
+    }
+    const transition = src === 'idle' ? value * 0.01 : 0;
+
+    const mLrf = marketLrf(s, typeId, params.airline, term, age) * lrfMult;
+    const ratio = Math.max(0.85, Math.min(1.2, params.ratio || 1));
+    const lrf = mLrf * ratio;
+    const rentM = value * lrf;
+    const rentQ = rentM * 3;
+    const deposit = rentM * 2;
+    const mrQ = rentQ * T.mr;
+
+    // 融资
+    let loan = 0;
+    let fin = { ok: true, spread: 0, amort: 0, fee: 0, maxLtv: 0, label: '沿用原融资' };
+    let feeAmt = 0;
+    if (src !== 'idle') {
+      fin = financeTerms(s, p, params.finance || 'bank', isNew, typeId);
+      if (!fin.ok) return { ok: false, why: fin.why };
+      const ltv = Math.max(0, Math.min(fin.maxLtv, params.ltv != null ? params.ltv : fin.maxLtv));
+      loan = price * ltv;
+      feeAmt = loan * fin.fee;
+    } else if (idle.loan) {
+      loan = 0;
+    }
+    const outflow = price - loan + feeAmt + transition - deposit;
+    const equity = price - loan + feeAmt + transition;
+
+    // 年化指标
+    const existingLoan = idle && idle.loan ? idle.loan : null;
+    const loanBal = existingLoan ? existingLoan.principal : loan;
+    const rate = existingLoan ? s.market.sofr + existingLoan.spread : s.market.sofr + fin.spread;
+    const interestQ = (loanBal * rate) / 4;
+    const depQ = value * (1 - Math.exp(-T.k / 4));
+    const netQ = rentQ - interestQ - depQ;
+    const eqBase = idle ? Math.max(1, value - loanBal) : Math.max(1, equity);
+    const roe = (netQ * 4) / eqBase;
+
+    // 成交概率
+    const rating = A.rating;
+    let p0 = 0.55 - (ratio - 1) * 7 + acceptBonus;
+    if (dominates(s, p, AD.g)) p0 += 0.08;
+    if (A.lessor === p && A.framework) p0 += 0.1;
+    if (rating >= 3) p0 += 0.08;
+    if (pl.referral) p0 += 0.15;
+    if (isNew && term >= 10) p0 += 0.05;
+    if (src === 'idle' && age > 12) p0 -= 0.1;
+    const acceptP = Math.max(0.03, Math.min(0.97, p0));
+
+    Object.assign(q, {
+      ok: true,
+      typeId,
+      engine,
+      age,
+      isNew,
+      term,
+      terms,
+      source: src,
+      value,
+      price,
+      marketLrf: mLrf,
+      lrf,
+      ratio,
+      rentM,
+      rentQ,
+      deposit,
+      mrQ,
+      loan,
+      finance: src === 'idle' ? 'existing' : params.finance || 'bank',
+      finLabel: fin.label,
+      spread: existingLoan ? existingLoan.spread : fin.spread,
+      allIn: rate,
+      amort: fin.amort,
+      fee: feeAmt,
+      transition,
+      outflow,
+      equity,
+      interestQ,
+      depQ,
+      netQ,
+      roe,
+      yieldA: (rentQ * 4) / value,
+      acceptP,
+      affordable: pl.cash + rcfAvail(s, p) >= outflow,
+    });
+    if (!q.affordable) q.why = `资金不足：需 ${fmt(outflow)}，可用 ${fmt(pl.cash + rcfAvail(s, p))}`;
+    return q;
+  }
+
+  // 列出某航司可用的签约来源组合（UI 与 AI 共用）
+  function signOptions(s, p, airlineId) {
+    const AD = AIRLINES[airlineId];
+    const out = [];
+    for (const typeId of AD.types) {
+      const T = TYPES[typeId];
+      const isNew = T.age0 < 1;
+      const sources = ['spot'];
+      if (isNew) sources.push('slb');
+      if (isNew && T.oem && s.oems[T.oem] && s.oems[T.oem].owner === p && s.oems[T.oem].slots > 0) sources.push('slot');
+      const engines = AD.engine ? [AD.engine] : T.engines;
+      out.push({ typeId, sources, engines, terms: termOptions(typeId, T.age0) });
+    }
+    const idle = ownedAircraft(s, p).filter((a) => !a.lease && AD.types.includes(a.type));
+    return { types: out, idle: idle.map((a) => a.id) };
+  }
+
+  // ---------- 资产 ----------
+  function genMsn(s, typeId) {
+    const [a, b] = TYPES[typeId].msn;
+    for (let i = 0; i < 50; i++) {
+      const m = randInt(s, a, b);
+      const key = typeId.slice(0, 1) + m;
+      if (!s.msnUsed[key]) {
+        s.msnUsed[key] = 1;
+        return String(m);
+      }
+    }
+    return String(randInt(s, a, b));
+  }
+  function createAircraft(s, p, typeId, engine, age) {
+    const id = 'ac' + s.nextId++;
+    const ac = { id, msn: genMsn(s, typeId), type: typeId, engine, owner: p, age, acqQ: s.q, haircut: 1, lease: null, loan: null };
+    s.aircraft[id] = ac;
+    return ac;
+  }
+  function saleProceeds(s, ac, atMarket) {
+    const v = mv(s, ac);
+    let price;
+    if (ac.lease) price = v * (1 + CREDIT.bid[Math.min(4, s.airlines[ac.lease.airline].rating)]);
+    else price = v * 0.92;
+    if (!atMarket) price *= 0.96;
+    const loan = ac.loan ? ac.loan.principal : 0;
+    const liab = ac.lease ? ac.lease.deposit + ac.lease.mrBal : 0;
+    return { price, loan, liab, net: price - loan - liab };
+  }
+  function sellAircraft(s, p, acId, atMarket, why) {
+    const ac = s.aircraft[acId];
+    if (!ac || ac.owner !== p) return false;
+    const pr = saleProceeds(s, ac, atMarket);
+    const pl = s.players[p];
+    pl.cash += pr.net;
+    pl.stats.sold++;
+    const where = ac.lease ? `（带 ${AIRLINES[ac.lease.airline].name} 租约）` : '（闲置）';
+    log(s, `${pl.name} 出售 ${TYPES[ac.type].name} MSN ${ac.msn}${where}，售价 ${fmt(pr.price)}，偿还贷款后净得 ${fmt(pr.net)}${why ? '。' + why : ''}`, p, 'deal');
+    const airline = ac.lease ? ac.lease.airline : null;
+    delete s.aircraft[acId];
+    if (airline) relock(s, airline);
+    return true;
+  }
+  function removeAircraftToThirdParty(s, acId) {
+    const ac = s.aircraft[acId];
+    delete s.aircraft[acId];
+    if (ac && ac.lease) relock(s, ac.lease.airline);
+  }
+
+  // ---------- 现金流工具 ----------
+  function pay(s, p, amt, to = null) {
+    s.players[p].cash -= amt;
+    if (to != null) s.players[to].cash += amt;
+  }
+
+  // ---------- 牌堆 ----------
+  function draw(s, deck) {
+    if (!s.decks[deck].length) s.decks[deck] = shuffle(s, (deck === 'ch' ? D.CHANCE : D.COMMUNITY).map((c) => c.id));
+    return s.decks[deck].shift();
+  }
+  function cardInfo(deck, id) {
+    return (deck === 'ch' ? D.CHANCE : D.COMMUNITY).find((c) => c.id === id);
+  }
+  function notch(s, id, d) {
+    const a = s.airlines[id];
+    if (a.sanctioned || a.defaultUntil != null) return;
+    const before = a.rating;
+    a.rating = Math.max(0, Math.min(4, a.rating + d));
+    if (a.rating !== before) log(s, `${AIRLINES[id].name} 评级 ${RATINGS[before]} → ${RATINGS[a.rating]}`, null, d > 0 ? 'bad' : 'good');
+  }
+  function shiftCycle(s, d) {
+    const before = s.market.cycle;
+    s.market.cycle = Math.max(0, Math.min(3, s.market.cycle + d));
+    if (before !== s.market.cycle) log(s, `市场周期：${CYCLES[before].name} → ${CYCLES[s.market.cycle].name}`, null, 'sys');
+  }
+  function scaleIdx(s, pred, f) {
+    for (const t in TYPES) if (pred(TYPES[t], t)) s.market.idx[t] = Math.max(0.4, Math.min(1.8, s.market.idx[t] * f));
+  }
+
+  function applyChance(s, p, id) {
+    const m = s.market;
+    const pl = s.players[p];
+    switch (id) {
+      case 'pandemic':
+        m.cycle = 3;
+        m.deferral = 2;
+        scaleIdx(s, () => true, 0.92);
+        for (const a in s.airlines) if (s.airlines[a].rating >= 3) notch(s, a, 1);
+        break;
+      case 'sanction': {
+        if (m.sanctionDone) {
+          for (const a in AIRLINES) if (AIRLINES[a].g === 'EA') notch(s, a, 1);
+          log(s, '制裁清单扩大：欧亚区航司全部下调一档。', null, 'bad');
+          break;
+        }
+        m.sanctionDone = true;
+        const A = s.airlines.SU;
+        A.sanctioned = true;
+        for (const ac of Object.values(s.aircraft).filter((x) => x.lease && x.lease.airline === 'SU')) {
+          const owner = s.players[ac.owner];
+          const v = mv(s, ac);
+          if (ac.loan && ac.loan.principal > 0) owner.stranded.push({ principal: ac.loan.principal, spread: ac.loan.spread, amortQ: ac.loan.principal * 0.04 });
+          owner.receivables.push({ amount: v * 0.55, q: s.q + 6, text: `SU 保险赔付 MSN ${ac.msn}` });
+          owner.stats.defaultsHit++;
+          log(s, `${owner.name} 的 ${TYPES[ac.type].name} MSN ${ac.msn} 被扣留在俄罗斯。账面 ${fmt(v)}，贷款 ${fmt(ac.loan ? ac.loan.principal : 0)} 转为搁浅债务。`, ac.owner, 'bad');
+          delete s.aircraft[ac.id];
+        }
+        A.lessor = null;
+        A.framework = false;
+        break;
+      }
+      case 'gtf':
+        for (const e of D.GTF) m.eng[e] = (m.eng[e] || 1) * 0.9;
+        notch(s, '6E', 1);
+        notch(s, 'W6', 1);
+        break;
+      case 'max':
+        scaleIdx(s, (T, t) => t === 'B38M', 0.85);
+        m.maxFrozenUntil = s.q + 4;
+        break;
+      case 'hike':
+        m.sofr = Math.min(0.08, m.sofr + 0.0075);
+        break;
+      case 'cut':
+        m.sofr = Math.max(0.0025, m.sofr - 0.005);
+        break;
+      case 'nbshort':
+        scaleIdx(s, (T) => T.cat === 'NB', 1.08);
+        break;
+      case 'wbsoft':
+        scaleIdx(s, (T) => T.cat === 'WB', 0.92);
+        break;
+      case '777x':
+        scaleIdx(s, (T, t) => t === 'B77W', 1.12);
+        break;
+      case 'oil':
+        for (const a in s.airlines) if (s.airlines[a].rating >= 3) notch(s, a, 1);
+        if (rand(s) < 0.5) shiftCycle(s, 1);
+        break;
+      case 'recovery':
+        shiftCycle(s, -1);
+        for (const a in s.airlines) if (rand(s) < 0.35) notch(s, a, -1);
+        break;
+      case 'c919':
+        scaleIdx(s, (T, t) => t === 'C919', 1.1);
+        break;
+      case 'restructure': {
+        const weak = Object.keys(s.airlines).filter((a) => airlineOpen(s, a) && s.airlines[a].rating >= 3);
+        if (weak.length) defaultAirline(s, weak[Math.floor(rand(s) * weak.length)]);
+        else log(s, '没有 B 级及以下航司，重组潮平稳度过。', null, 'info');
+        break;
+      }
+      case 'capetown':
+        m.capeTown = true;
+        break;
+      case 'delay':
+        scaleIdx(s, (T, t) => ['A320N', 'A321N', 'B38M'].includes(t), 1.06);
+        for (const o in s.oems) if (s.oems[o].owner != null && s.oems[o].slots > 0) s.players[s.oems[o].owner].cash += s.oems[o].slots;
+        break;
+      case 'usd':
+        for (const a in AIRLINES) if (['AF', 'LA', 'IN', 'SE'].includes(AIRLINES[a].g) && rand(s) < 0.4) notch(s, a, 1);
+        break;
+      case 'saf':
+        scaleIdx(s, (T, t) => ['B738', 'A20C', 'B77W'].includes(t), 0.9);
+        break;
+      case 'appraisal':
+        scaleIdx(s, () => true, 1.04);
+        break;
+    }
+  }
+  function applyCommunity(s, p, id) {
+    const pl = s.players[p];
+    switch (id) {
+      case 'rcf':
+        pl.rcfLimit += 20;
+        break;
+      case 'advisory':
+        pl.cash += 2;
+        break;
+      case 'legal':
+        pay(s, p, 1.5);
+        break;
+      case 'records': {
+        const own = ownedAircraft(s, p);
+        if (own.length) {
+          const ac = own[Math.floor(rand(s) * own.length)];
+          ac.haircut = (ac.haircut || 1) * 0.94;
+          log(s, `受影响飞机：${TYPES[ac.type].name} MSN ${ac.msn}`, p, 'bad');
+        }
+        break;
+      }
+      case 'upgrade':
+        pl.spreadAdj -= 0.0025;
+        break;
+      case 'downgrade':
+        pl.spreadAdj += 0.0025;
+        break;
+      case 'jail':
+        sendToJail(s, p);
+        break;
+      case 'dublin':
+        pl.pos = 0;
+        pl.cash += GO_BONUS;
+        log(s, `${pl.name} 回到都柏林，收入 ${fmt(GO_BONUS)}`, p);
+        break;
+      case 'poached':
+        pay(s, p, 1);
+        break;
+      case 'referral':
+        pl.referral = true;
+        break;
+      case 'dividend':
+        pay(s, p, Math.min(5, Math.max(0, pl.cash * 0.05)));
+        break;
+      case 'equity':
+        pl.cash += 10;
+        break;
+      case 'insurance':
+        pl.cash += 1.5;
+        break;
+      case 'pass':
+        pl.passCard = true;
+        break;
+    }
+  }
+
+  // ---------- 违约 ----------
+  function defaultAirline(s, id) {
+    const A = s.airlines[id];
+    A.defaultUntil = s.q + 4;
+    log(s, `⚠ ${AIRLINES[id].name} 违约，申请破产保护（预计 ${qLabel(s, s.q + 4)} 重组完成）`, null, 'bad');
+    for (const ac of Object.values(s.aircraft).filter((x) => x.lease && x.lease.airline === id)) {
+      const pl = s.players[ac.owner];
+      const v = mv(s, ac);
+      const cost = v * (s.market.capeTown ? 0.02 : 0.04);
+      // 保证金与 MR 余额留给出租人抵扣
+      const kept = ac.lease.deposit + ac.lease.mrBal;
+      pl.cash -= cost;
+      pl.stats.defaultsHit++;
+      log(s, `${pl.name} 收回 ${TYPES[ac.type].name} MSN ${ac.msn}：收回与整修成本 ${fmt(cost)}，没收保证金 + MR ${fmt(kept)}，损失未付租金 ${fmt(ac.lease.deferred || 0)}`, ac.owner, 'bad');
+      ac.lease = null;
+    }
+    A.lessor = null;
+    A.framework = false;
+  }
+
+  // ---------- 行动：移动与格子 ----------
+  function sendToJail(s, p) {
+    const pl = s.players[p];
+    pl.pos = JAIL_POS;
+    pl.jail = 1;
+    s.turn.extraRoll = false;
+    log(s, `${pl.name} 进入合规审查`, p, 'bad');
+  }
+  function move(s, p, steps) {
+    const pl = s.players[p];
+    const next = pl.pos + steps;
+    if (next >= BOARD_N) {
+      pl.cash += GO_BONUS;
+      log(s, `${pl.name} 经过都柏林，平台服务费收入 ${fmt(GO_BONUS)}`, p);
+    }
+    pl.pos = next % BOARD_N;
+    resolveSpace(s, p);
+  }
+
+  function resolveSpace(s, p) {
+    const pl = s.players[p];
+    const sp = BOARD[pl.pos];
+    switch (sp.t) {
+      case 'go':
+        pl.cash += 2;
+        log(s, `${pl.name} 停在都柏林，路演签约奖金 $2.0m`, p);
+        break;
+      case 'airline':
+        visitAirline(s, p, sp.id, false);
+        break;
+      case 'cc':
+      case 'ch': {
+        const deck = sp.t;
+        const id = draw(s, deck);
+        const c = cardInfo(deck, id);
+        pl.stats.events++;
+        log(s, `${pl.name} 抽到【${deck === 'ch' ? '市场快讯' : '公司内部'}】${c.title}：${c.text}`, p, 'card');
+        s.events.push({ q: s.q, p, deck, id, title: c.title, text: c.text });
+        if (deck === 'ch') applyChance(s, p, id);
+        else applyCommunity(s, p, id);
+        break;
+      }
+      case 'tax': {
+        let amt;
+        if (sp.id === 'wht') {
+          const roll = ownedAircraft(s, p).reduce((t, a) => t + (a.lease ? a.lease.rentQ : 0), 0);
+          amt = Math.max(0.5, roll * 0.1);
+          log(s, `${pl.name} 缴纳预提税 ${fmt(amt)}（季度租金的 10%）`, p, 'bad');
+        } else {
+          amt = Math.max(0.5, fleetValue(s, p) * 0.001);
+          log(s, `${pl.name} 支付保险续保 ${fmt(amt)}（机队价值的 0.1%）`, p, 'bad');
+        }
+        pay(s, p, amt);
+        break;
+      }
+      case 'oem': {
+        const o = s.oems[sp.id];
+        const O = OEMS[sp.id];
+        if (o.owner == null) s.pending = { type: 'oem', p, oem: sp.id, mode: 'buy', price: O.price, slots: O.slots };
+        else if (o.owner === p) s.pending = { type: 'oem', p, oem: sp.id, mode: 'topup', price: O.price / O.slots };
+        else if (!s.players[o.owner].bankrupt) {
+          const n = Object.values(s.oems).filter((x) => x.owner === o.owner).length;
+          const fee = [0, 1, 2, 4, 8][n];
+          pay(s, p, fee, o.owner);
+          pl.stats.feeOut += fee;
+          s.players[o.owner].stats.feeIn += fee;
+          log(s, `${pl.name} 向 ${s.players[o.owner].name} 支付 ${O.name} 交付位转让溢价 ${fmt(fee)}（对方持有 ${n} 家主机厂订单）`, p, 'fee');
+        }
+        break;
+      }
+      case 'engine': {
+        const e = s.engines[sp.id];
+        if (e.owner == null) s.pending = { type: 'engine', p, engine: sp.id, price: ENGINES[sp.id].price };
+        else if (e.owner !== p && !s.players[e.owner].bankrupt) {
+          const both = Object.values(s.engines).every((x) => x.owner === e.owner);
+          const dice = s.turn.roll ? s.turn.roll[0] + s.turn.roll[1] : 7;
+          const fee = dice * (both ? 0.6 : 0.25);
+          pay(s, p, fee, e.owner);
+          pl.stats.feeOut += fee;
+          s.players[e.owner].stats.feeIn += fee;
+          log(s, `${pl.name} 向 ${s.players[e.owner].name} 租用备发，支付 ${fmt(fee)}（点数 ${dice} × ${both ? '0.6' : '0.25'}）`, p, 'fee');
+        }
+        break;
+      }
+      case 'market':
+        s.pending = { type: 'market', p };
+        break;
+      case 'airshow':
+        s.pending = { type: 'airshow', p };
+        break;
+      case 'gotojail':
+        sendToJail(s, p);
+        break;
+      case 'jail':
+      default:
+        break;
+    }
+  }
+
+  function canSignAt(s, p, id) {
+    const A = s.airlines[id];
+    if (!airlineOpen(s, id)) return false;
+    if (A.lessor != null && A.lessor !== p) return false;
+    return airlineFleet(s, p, id).length < AIRLINES[id].cap;
+  }
+  function visitAirline(s, p, id, remote) {
+    const pl = s.players[p];
+    const A = s.airlines[id];
+    const AD = AIRLINES[id];
+    if (A.sanctioned) {
+      log(s, `${pl.name} 到访 ${AD.name}：受制裁，无法开展业务`, p);
+      return;
+    }
+    if (A.defaultUntil != null) {
+      log(s, `${pl.name} 到访 ${AD.name}：破产重组中，暂停引进飞机`, p);
+      return;
+    }
+    if (A.lessor != null && A.lessor !== p) {
+      const owner = s.players[A.lessor];
+      const fee = landingFee(s, id);
+      pay(s, p, fee, A.lessor);
+      pl.stats.feeOut += fee;
+      owner.stats.feeIn += fee;
+      log(s, `${pl.name} 到 ${AD.name} 竞标失败——${owner.name} 以续租条款锁定客户。${pl.name} 付出竞标成本 ${fmt(fee)}，归 ${owner.name}`, p, 'fee');
+      if (!remote) s.pending = { type: 'airline', p, airline: id, mode: 'rival', remote };
+      return;
+    }
+    const own = airlineFleet(s, p, id).length;
+    const canFramework = A.lessor === p && own >= 3 && !A.framework;
+    if (own >= AD.cap && !canFramework) {
+      log(s, `${pl.name} 到访 ${AD.name}：机队已满额（${own}/${AD.cap}）`, p);
+      return;
+    }
+    s.pending = { type: 'airline', p, airline: id, mode: A.lessor === p ? 'own' : 'open', remote, signed: 0, retry: false, maxRatio: 1.2, limit: remote ? 1 : MAX_SIGN_PER_VISIT };
+  }
+
+  // 头寸估值：收购对手在某航司的全部租约
+  function positionValue(s, p, id) {
+    let v = 0;
+    for (const a of airlineFleet(s, p, id)) {
+      const val = mv(s, a);
+      const loan = a.loan ? a.loan.principal : 0;
+      const remQ = Math.max(0, a.lease.endQ - s.q);
+      const interestQ = a.loan ? (loan * (s.market.sofr + a.loan.spread)) / 4 : 0;
+      const depQ = val * (1 - Math.exp(-TYPES[a.type].k / 4));
+      const margin = Math.max(0, a.lease.rentQ - interestQ - depQ);
+      v += val - loan - a.lease.deposit - a.lease.mrBal + remQ * margin * 0.4;
+    }
+    return v;
+  }
+  function transferPosition(s, from, to, id, price) {
+    const fleet = airlineFleet(s, from, id);
+    for (const a of fleet) a.owner = to;
+    s.players[to].cash -= price;
+    s.players[from].cash += price;
+    s.airlines[id].lessor = to;
+    log(s, `${s.players[to].name} 以 ${fmt(price)} 收购 ${s.players[from].name} 在 ${AIRLINES[id].name} 的 ${fleet.length} 架带租约飞机（贷款一并承接）`, to, 'deal');
+  }
+
+  // ---------- 季度结算 ----------
+  function quarterEnd(s) {
+    const m = s.market;
+    const cyc = CYCLES[m.cycle];
+    const rep = { q: s.q, label: qLabel(s), sofr: m.sofr, cycle: m.cycle, players: {} };
+    // 1) 违约检查
+    for (const id in s.airlines) {
+      const A = s.airlines[id];
+      if (A.sanctioned || A.defaultUntil != null) continue;
+      if (rand(s) < CREDIT.pd[A.rating] * cyc.pd) defaultAirline(s, id);
+    }
+    // 2) 现金流
+    for (const pl of s.players) {
+      if (pl.bankrupt) continue;
+      const r = { rent: 0, mr: 0, interest: 0, amort: 0, storage: 0, engine: 0, receivable: 0, mrPaid: 0, depositBack: 0, extended: 0, returned: 0 };
+      for (const ac of ownedAircraft(s, pl.id)) {
+        const L = ac.lease;
+        if (L) {
+          let paid = L.rentQ;
+          if (m.deferral > 0) {
+            paid = L.rentQ * 0.5;
+            L.deferred = (L.deferred || 0) + L.rentQ * 0.5;
+          } else if (L.deferred > 0) {
+            const extra = Math.min(L.deferred, L.rentQ * 0.25);
+            paid += extra;
+            L.deferred -= extra;
+          }
+          const mr = L.rentQ * TYPES[ac.type].mr;
+          L.mrBal += mr;
+          r.rent += paid;
+          r.mr += mr;
+        } else {
+          r.storage += mv(s, ac) * 0.004;
+        }
+        if (ac.loan && ac.loan.principal > 0) {
+          const i = (ac.loan.principal * (m.sofr + ac.loan.spread)) / 4;
+          const am = Math.min(ac.loan.principal, ac.loan.amortQ);
+          ac.loan.principal -= am;
+          r.interest += i;
+          r.amort += am;
+          if (ac.loan.principal < 0.01) ac.loan = null;
+        }
+      }
+      for (const d of pl.stranded) {
+        r.interest += (d.principal * (m.sofr + d.spread)) / 4;
+        const am = Math.min(d.principal, d.amortQ);
+        d.principal -= am;
+        r.amort += am;
+      }
+      pl.stranded = pl.stranded.filter((d) => d.principal > 0.01);
+      r.interest += (pl.rcf * (m.sofr + 0.03)) / 4;
+      for (const e in s.engines) if (s.engines[e].owner === pl.id) r.engine += ENGINES[e].income;
+      pl.receivables = pl.receivables.filter((x) => {
+        if (s.q >= x.q) {
+          r.receivable += x.amount;
+          log(s, `${pl.name} 收到 ${x.text} ${fmt(x.amount)}`, pl.id, 'good');
+          return false;
+        }
+        return true;
+      });
+      pl.cash += r.rent + r.mr + r.engine + r.receivable - r.interest - r.amort - r.storage;
+      pl.stats.rent += r.rent;
+      pl.stats.mr += r.mr;
+      pl.stats.interest += r.interest;
+      rep.players[pl.id] = r;
+    }
+    // 3) 租约到期
+    for (const ac of Object.values(s.aircraft)) {
+      const L = ac.lease;
+      if (!L || s.q + 1 < L.endQ) continue;
+      const pl = s.players[ac.owner];
+      const A = s.airlines[L.airline];
+      let pExt = 0.5 + cyc.ext + (A.framework ? 0.3 : 0) + (A.rating === 0 ? 0.05 : 0) - (ageNow(s, ac) > 18 ? 0.2 : 0);
+      if (rand(s) < pExt) {
+        const age = ageNow(s, ac);
+        const term = age < 12 ? 5 : 3;
+        const lrf = marketLrf(s, ac.type, L.airline, term >= 5 ? 5 : 3, age);
+        const rentM = mv(s, ac) * lrf;
+        L.rentQ = rentM * 3;
+        L.endQ = s.q + 1 + term * 4;
+        L.startQ = s.q + 1;
+        L.lrf = lrf;
+        rep.players[ac.owner].extended++;
+        log(s, `${AIRLINES[L.airline].name} 续租 ${pl.name} 的 ${TYPES[ac.type].name} MSN ${ac.msn} ${term} 年，新月租 ${fmt(rentM)}（LRF ${(lrf * 100).toFixed(2)}%）`, ac.owner, 'good');
+      } else {
+        const reimb = L.mrBal * 0.7;
+        pl.cash -= reimb + L.deposit;
+        rep.players[ac.owner].mrPaid += reimb;
+        rep.players[ac.owner].returned++;
+        log(s, `${TYPES[ac.type].name} MSN ${ac.msn} 租约到期退还给 ${pl.name}：返还保证金 ${fmt(L.deposit)}，支付维修补偿 ${fmt(reimb)}，MR 结余 ${fmt(L.mrBal - reimb)} 转为收益。飞机进入闲置`, ac.owner, 'info');
+        const id = L.airline;
+        ac.lease = null;
+        relock(s, id);
+      }
+    }
+    // 4) 市场更新
+    marketUpdate(s);
+    if (m.deferral > 0) m.deferral--;
+    // 5) 年终
+    const yearEnd = s.q % 4 === 3;
+    if (yearEnd) {
+      for (const id in s.airlines) {
+        const A = s.airlines[id];
+        if (A.sanctioned || A.defaultUntil != null) continue;
+        const x = rand(s);
+        if (x < CYCLES[m.cycle].up) notch(s, id, -1);
+        else if (x < CYCLES[m.cycle].up + CYCLES[m.cycle].down) notch(s, id, 1);
+      }
+      for (const o in s.oems) if (s.oems[o].owner != null) s.oems[o].slots = Math.min(OEMS[o].slots + 2, s.oems[o].slots + 1);
+    }
+    // 6) 重组完成
+    for (const id in s.airlines) {
+      const A = s.airlines[id];
+      if (A.defaultUntil != null && s.q + 1 >= A.defaultUntil) {
+        A.defaultUntil = null;
+        A.rating = 3;
+        log(s, `${AIRLINES[id].name} 完成重组，评级 B，重新开放引进飞机`, null, 'good');
+      }
+    }
+    // 7) RCF 自动还款 + 契约
+    for (const pl of s.players) {
+      if (pl.bankrupt) continue;
+      if (pl.rcf > 0 && pl.cash > 15) {
+        const repay = Math.min(pl.rcf, pl.cash - 15);
+        pl.rcf -= repay;
+        pl.cash -= repay;
+      }
+      const lev = leverage(s, pl.id);
+      if (lev > COVENANT) {
+        pl.breach++;
+        log(s, `${pl.name} 杠杆 ${(lev * 100).toFixed(0)}% 超过 ${COVENANT * 100}% 契约上限（违约第 ${pl.breach} 季度）`, pl.id, 'bad');
+      } else pl.breach = 0;
+      rep.players[pl.id].nav = nav(s, pl.id);
+      rep.players[pl.id].cash = pl.cash;
+      rep.players[pl.id].lev = lev;
+    }
+    s.reports.push(rep);
+    if (s.reports.length > 60) s.reports.shift();
+    s.q++;
+    log(s, `—— 进入 ${qLabel(s)} · SOFR ${(m.sofr * 100).toFixed(2)}% · 周期 ${CYCLES[m.cycle].name} ——`, null, 'sys');
+  }
+
+  function marketUpdate(s) {
+    const m = s.market;
+    const row = CYCLE_TRANS[m.cycle];
+    let x = rand(s);
+    let next = m.cycle;
+    for (let i = 0; i < 4; i++) {
+      if (x < row[i]) {
+        next = i;
+        break;
+      }
+      x -= row[i];
+    }
+    if (next !== m.cycle) {
+      log(s, `市场周期：${CYCLES[m.cycle].name} → ${CYCLES[next].name}`, null, 'sys');
+      m.cycle = next;
+    }
+    const cyc = CYCLES[m.cycle];
+    let d = 0;
+    const r = rand(s);
+    if (r < 0.2) d -= 0.0025;
+    else if (r < 0.4) d += 0.0025;
+    if (m.cycle === 3 && rand(s) < 0.6) d -= 0.0025;
+    if (m.cycle === 0 && rand(s) < 0.3) d += 0.0025;
+    if (m.sofr > 0.05 && rand(s) < 0.3) d -= 0.0025;
+    if (m.sofr < 0.015 && rand(s) < 0.3) d += 0.0025;
+    m.sofr = Math.max(0.0025, Math.min(0.08, m.sofr + d));
+    for (const t in m.idx) {
+      let v = m.idx[t] * (1 + cyc.drift + (rand(s) - 0.5) * 0.03);
+      v += (1 - v) * 0.05;
+      m.idx[t] = Math.max(0.4, Math.min(1.8, v));
+    }
+    for (const e in m.eng) m.eng[e] += (0.98 - m.eng[e]) * 0.08;
+  }
+
+  // ---------- 偿付能力 ----------
+  function sellables(s, p) {
+    const items = ownedAircraft(s, p).map((a) => ({ kind: 'aircraft', id: a.id, net: saleProceeds(s, a, false).net }));
+    for (const e in s.engines) if (s.engines[e].owner === p) items.push({ kind: 'engine', id: e, net: ENGINES[e].price * 0.7 });
+    for (const o in s.oems) if (s.oems[o].owner === p) items.push({ kind: 'oem', id: o, net: s.oems[o].slots * (OEMS[o].price / OEMS[o].slots) * 0.5 });
+    return items;
+  }
+  function checkSolvency(s, p, covenantCheck) {
+    const pl = s.players[p];
+    if (pl.bankrupt) return true;
+    if (pl.cash < 0) {
+      const draw = Math.min(rcfAvail(s, p), -pl.cash);
+      if (draw > 0) {
+        pl.rcf += draw;
+        pl.cash += draw;
+        log(s, `${pl.name} 提取 RCF ${fmt(draw)} 弥补现金缺口`, p, 'info');
+      }
+    }
+    const short = pl.cash < -1e-6;
+    const cov = covenantCheck && pl.breach >= 2;
+    if (!short && !cov) return true;
+    const items = sellables(s, p);
+    const positive = items.filter((i) => i.net > 0);
+    if (!positive.length || (short && items.reduce((t, i) => t + Math.max(0, i.net), 0) + pl.cash < 0)) {
+      bankrupt(s, p);
+      return true;
+    }
+    s.pending = { type: 'shortfall', p, reason: short ? 'cash' : 'covenant', gap: short ? -pl.cash : 0 };
+    return false;
+  }
+  function bankrupt(s, p) {
+    const pl = s.players[p];
+    pl.bankrupt = true;
+    log(s, `✖ ${pl.name} 资不抵债，进入破产清算。机队由第三方接手。`, p, 'bad');
+    for (const a of ownedAircraft(s, p)) removeAircraftToThirdParty(s, a.id);
+    for (const e in s.engines) if (s.engines[e].owner === p) s.engines[e].owner = null;
+    for (const o in s.oems) if (s.oems[o].owner === p) s.oems[o] = { owner: null, slots: 0 };
+    for (const id in s.airlines) if (s.airlines[id].lessor === p) s.airlines[id].lessor = null;
+    pl.cash = 0;
+    pl.rcf = 0;
+    pl.stranded = [];
+    pl.receivables = [];
+  }
+
+  // ---------- 主循环 ----------
+  function activePlayers(s) {
+    return s.players.filter((p) => !p.bankrupt);
+  }
+  function checkOver(s) {
+    const act = activePlayers(s);
+    const humanDead = s.endOnHumanBankrupt && s.players.some((p) => p.human && p.bankrupt);
+    if (s.q >= s.maxQ || act.length <= 1 || humanDead) {
+      s.over = true;
+      const ranked = s.players.map((p) => ({ id: p.id, nav: p.bankrupt ? -Infinity : nav(s, p.id) })).sort((a, b) => b.nav - a.nav);
+      s.winner = ranked[0].id;
+      s.ranking = ranked.map((r) => r.id);
+      log(s, `游戏结束。冠军：${s.players[s.winner].name}（NAV ${fmt(nav(s, s.winner))}）`, null, 'sys');
+      return true;
+    }
+    return false;
+  }
+
+  function advance(s) {
+    let guard = 0;
+    while (!s.over && !s.pending) {
+      if (++guard > 5000) throw new Error('advance loop guard');
+      step(s);
+    }
+    return s;
+  }
+
+  function step(s) {
+    const t = s.turn;
+    switch (s.phase) {
+      case 'turnStart': {
+        const pl = s.players[t.p];
+        if (pl.bankrupt) {
+          s.phase = 'endTurn';
+          return;
+        }
+        if (pl.jail > 0 && !t.extraRoll) {
+          s.pending = { type: 'jail', p: t.p, tries: pl.jail };
+          return;
+        }
+        s.pending = { type: 'turn', p: t.p, again: t.extraRoll };
+        return;
+      }
+      case 'afterSpace': {
+        const p = t.p;
+        // 付费方或收款方都可能出现缺口：先检查当前玩家
+        if (!checkSolvency(s, p, false)) return;
+        for (const pl of s.players) if (!pl.bankrupt && pl.cash < 0 && !checkSolvency(s, pl.id, false)) return;
+        if (checkOver(s)) return;
+        if (t.extraRoll && !s.players[p].bankrupt && s.players[p].jail === 0) {
+          s.phase = 'turnStart';
+        } else {
+          t.extraRoll = false;
+          s.phase = 'endTurn';
+        }
+        return;
+      }
+      case 'endTurn': {
+        t.doubles = 0;
+        t.remoteUsed = false;
+        t.extraRoll = false;
+        const old = t.p;
+        let n = old;
+        for (let i = 0; i < s.players.length; i++) {
+          n = (n + 1) % s.players.length;
+          if (!s.players[n].bankrupt) break;
+        }
+        t.p = n;
+        // 轮到的玩家序号没有变大 = 所有人都走完一轮 = 一个季度结束
+        s.phase = n <= old ? 'quarterEnd' : 'turnStart';
+        return;
+      }
+      case 'quarterEnd':
+        quarterEnd(s);
+        s.phase = 'solvency';
+        s.solvIdx = 0;
+        return;
+      case 'solvency': {
+        while (s.solvIdx < s.players.length) {
+          const p = s.solvIdx;
+          if (!checkSolvency(s, p, true)) return;
+          s.solvIdx++;
+        }
+        if (checkOver(s)) return;
+        if (s.players[t.p].bankrupt) t.p = s.players.findIndex((p) => !p.bankrupt);
+        s.phase = 'turnStart';
+        return;
+      }
+    }
+  }
+
+  function rollDice(s) {
+    const d = [randInt(s, 1, 6), randInt(s, 1, 6)];
+    s.turn.roll = d;
+    return d;
+  }
+
+  // ---------- act：统一的决策入口 ----------
+  function act(s, choice) {
+    const pd = s.pending;
+    if (!pd) throw new Error('no pending decision');
+    const p = pd.p;
+    const pl = s.players[p];
+    const c = choice || {};
+    const done = () => {
+      s.pending = null;
+    };
+    switch (pd.type) {
+      case 'turn': {
+        if (c.action === 'roll') {
+          done();
+          const d = rollDice(s);
+          const dbl = d[0] === d[1];
+          log(s, `${pl.name} 掷出 ${d[0]} + ${d[1]}${dbl ? '（双数）' : ''}`, p, 'roll');
+          if (dbl) {
+            s.turn.doubles++;
+            if (s.turn.doubles >= 3) {
+              sendToJail(s, p);
+              s.phase = 'afterSpace';
+              return advance(s);
+            }
+            s.turn.extraRoll = true;
+          } else s.turn.extraRoll = false;
+          s.phase = 'afterSpace';
+          move(s, p, d[0] + d[1]);
+          return advance(s);
+        }
+        if (c.action === 'remote') {
+          const id = c.airline;
+          if (s.turn.remoteUsed || !AIRLINES[id] || !dominates(s, p, AIRLINES[id].g)) throw new Error('remote not allowed');
+          s.turn.remoteUsed = true;
+          done();
+          s.phase = 'turnStart';
+          visitAirline(s, p, id, true);
+          if (s.pending) s.pending.returnToTurn = true;
+          return advance(s);
+        }
+        if (c.action === 'sell') {
+          sellAircraft(s, p, c.aircraftId, false);
+          done();
+          s.phase = 'turnStart';
+          if (!checkSolvency(s, p, false)) return s;
+          return advance(s);
+        }
+        if (c.action === 'repay') {
+          const amt = Math.max(0, Math.min(pl.rcf, pl.cash, c.amount || pl.rcf));
+          pl.rcf -= amt;
+          pl.cash -= amt;
+          log(s, `${pl.name} 偿还 RCF ${fmt(amt)}`, p);
+          done();
+          s.phase = 'turnStart';
+          return advance(s);
+        }
+        throw new Error('bad turn action ' + c.action);
+      }
+      case 'jail': {
+        done();
+        if (c.action === 'card' && pl.passCard) {
+          pl.passCard = false;
+          pl.jail = 0;
+          log(s, `${pl.name} 使用合规通行证离开审查`, p);
+          s.pending = { type: 'turn', p };
+          return s;
+        }
+        if (c.action === 'pay') {
+          pay(s, p, JAIL_FEE);
+          pl.jail = 0;
+          log(s, `${pl.name} 支付 ${fmt(JAIL_FEE)} 合规整改费，离开审查`, p);
+          s.pending = { type: 'turn', p };
+          return s;
+        }
+        const d = rollDice(s);
+        if (d[0] === d[1]) {
+          pl.jail = 0;
+          log(s, `${pl.name} 掷出双数 ${d[0]}+${d[1]}，审查通过`, p, 'roll');
+          s.phase = 'afterSpace';
+          s.turn.extraRoll = false;
+          move(s, p, d[0] + d[1]);
+          return advance(s);
+        }
+        pl.jail++;
+        if (pl.jail > 3) {
+          pay(s, p, JAIL_FEE);
+          pl.jail = 0;
+          log(s, `${pl.name} 审查满三轮，支付 ${fmt(JAIL_FEE)} 后出行`, p);
+          s.phase = 'afterSpace';
+          move(s, p, d[0] + d[1]);
+          return advance(s);
+        }
+        log(s, `${pl.name} 掷出 ${d[0]}+${d[1]}，仍在审查中`, p, 'roll');
+        s.phase = 'afterSpace';
+        return advance(s);
+      }
+      case 'airline': {
+        const id = pd.airline;
+        const AD = AIRLINES[id];
+        const finish = () => {
+          done();
+          if (pd.returnToTurn) s.phase = 'turnStart';
+          return advance(s);
+        };
+        if (c.action === 'pass') return finish();
+        if (c.action === 'framework') {
+          const A = s.airlines[id];
+          if (A.lessor !== p || A.framework || airlineFleet(s, p, id).length < 3) throw new Error('framework not allowed');
+          const cost = frameworkCost(s, p, id);
+          pay(s, p, cost);
+          A.framework = true;
+          log(s, `${pl.name} 与 ${AD.name} 签署长期框架协议，法律与结构费用 ${fmt(cost)}。竞标失败成本 ×1.5，续租概率 +30%`, p, 'deal');
+          return finish();
+        }
+        if (c.action === 'buyout') {
+          if (pd.mode !== 'rival') throw new Error('buyout only vs rival');
+          const seller = s.airlines[id].lessor;
+          const price = Math.max(0, c.price || 0);
+          if (pl.cash + rcfAvail(s, p) < price) throw new Error('cannot afford');
+          const fair = positionValue(s, seller, id);
+          if (s.players[seller].human) {
+            s.pending = { type: 'offer', p: seller, buyer: p, airline: id, price, fair, returnToTurn: pd.returnToTurn };
+            return s;
+          }
+          if (price >= fair * s.players[seller].acceptPremium && price > 0) transferPosition(s, seller, p, id, price);
+          else log(s, `${s.players[seller].name} 拒绝了 ${pl.name} 对 ${AD.name} 租约组合 ${fmt(price)} 的收购报价`, p, 'info');
+          return finish();
+        }
+        if (c.action === 'sign') {
+          if (pd.mode === 'rival') throw new Error('cannot sign at rival airline');
+          const qt = quote(s, p, { ...c, airline: id });
+          if (!qt.ok) throw new Error('sign invalid: ' + qt.why);
+          if (!qt.affordable) throw new Error('sign unaffordable');
+          if (pd.retry && qt.ratio > pd.maxRatio + 1e-9) throw new Error('retry must lower rate');
+          pl.stats.bids++;
+          const win = rand(s) < qt.acceptP;
+          if (pl.referral) pl.referral = false;
+          if (!win) {
+            pay(s, p, BID_COST);
+            log(s, `${AD.name} 拒绝了 ${pl.name} 的 ${TYPES[qt.typeId].name} 报价（LRF ${(qt.lrf * 100).toFixed(3)}%，成交概率 ${(qt.acceptP * 100).toFixed(0)}%），尽调成本 ${fmt(BID_COST)}`, p, 'bad');
+            if (!pd.retry) {
+              pd.retry = true;
+              pd.maxRatio = qt.ratio - 0.01;
+              pd.lastFail = qt.ratio;
+              return s;
+            }
+            return finish();
+          }
+          executeSign(s, p, id, qt, c);
+          pd.signed++;
+          pd.retry = false;
+          pd.maxRatio = 1.2;
+          const more = pd.signed < pd.limit && canSignAt(s, p, id);
+          if (!more) {
+            const canFw = s.airlines[id].lessor === p && airlineFleet(s, p, id).length >= 3 && !s.airlines[id].framework;
+            if (!canFw) return finish();
+          }
+          pd.mode = 'own';
+          return s;
+        }
+        throw new Error('bad airline action ' + c.action);
+      }
+      case 'offer': {
+        done();
+        const buyer = pd.buyer;
+        const seller = p;
+        if (c.action === 'accept' && s.airlines[pd.airline].lessor === seller && s.players[buyer].cash + rcfAvail(s, buyer) >= pd.price) transferPosition(s, seller, buyer, pd.airline, pd.price);
+        else log(s, `${pl.name} 拒绝了 ${s.players[buyer].name} 对 ${AIRLINES[pd.airline].name} 租约组合 ${fmt(pd.price)} 的收购报价`, seller, 'info');
+        if (pd.returnToTurn) s.phase = 'turnStart';
+        return advance(s);
+      }
+      case 'oem': {
+        done();
+        const o = s.oems[pd.oem];
+        const O = OEMS[pd.oem];
+        if (c.action === 'buy' && pd.mode === 'buy') {
+          pay(s, p, O.price);
+          o.owner = p;
+          o.slots = O.slots;
+          log(s, `${pl.name} 向 ${O.name} 下达大订单：${O.slots} 个交付位，预付款 ${fmt(O.price)}。使用交付位购机享 12% 折扣`, p, 'deal');
+        } else if (c.action === 'topup' && pd.mode === 'topup') {
+          const n = Math.max(1, Math.min(2, c.n || 1));
+          pay(s, p, n * pd.price);
+          o.slots += n;
+          log(s, `${pl.name} 追加 ${n} 个 ${O.name} 交付位，${fmt(n * pd.price)}`, p, 'deal');
+        }
+        return advance(s);
+      }
+      case 'engine': {
+        done();
+        if (c.action === 'buy') {
+          pay(s, p, pd.price);
+          s.engines[pd.engine].owner = p;
+          log(s, `${pl.name} 收购 ${ENGINES[pd.engine].name} 备发租赁平台 ${fmt(pd.price)}，每季度收入 ${fmt(ENGINES[pd.engine].income)}`, p, 'deal');
+        }
+        return advance(s);
+      }
+      case 'market': {
+        if (c.action === 'sell') {
+          sellAircraft(s, p, c.aircraftId, true);
+          return s; // 可以继续卖
+        }
+        if (c.action === 'buy') {
+          const T = TYPES[c.type];
+          if (!T || T.age0 < 1) throw new Error('only used types on market');
+          const price = typeValue(s, c.type, T.age0, T.engines[0]) * 1.02;
+          const loan = price * 0.6;
+          const outflow = price - loan;
+          if (pl.cash + rcfAvail(s, p) < outflow) throw new Error('cannot afford');
+          const ac = createAircraft(s, p, c.type, T.engines[0], T.age0);
+          ac.loan = { principal: loan, spread: 0.025 + CYCLES[s.market.cycle].spread + pl.spreadAdj, amortQ: loan * 0.02, kind: 'bank' };
+          pl.cash -= outflow;
+          log(s, `${pl.name} 在二手平台购入闲置 ${T.name} MSN ${ac.msn}（${T.age0} 年机龄）${fmt(price)}，60% 银行融资`, p, 'deal');
+          return s;
+        }
+        done();
+        return advance(s);
+      }
+      case 'airshow': {
+        if (c.action === 'visit' && (!AIRLINES[c.airline] || !canSignAt(s, p, c.airline))) throw new Error('该航司目前无法签约');
+        done();
+        if (c.action === 'visit') {
+          log(s, `${pl.name} 在航展上会见 ${AIRLINES[c.airline].name}`, p);
+          visitAirline(s, p, c.airline, true);
+          if (s.pending) s.pending.airshow = true;
+        }
+        return advance(s);
+      }
+      case 'shortfall': {
+        done();
+        if (c.action === 'sell') sellAircraft(s, p, c.aircraftId, false, '被迫出售以弥补资金缺口');
+        else if (c.action === 'sellEngine') {
+          s.engines[c.id].owner = null;
+          pl.cash += ENGINES[c.id].price * 0.7;
+          log(s, `${pl.name} 出售 ${ENGINES[c.id].name} 备发平台，得 ${fmt(ENGINES[c.id].price * 0.7)}`, p);
+        } else if (c.action === 'sellOem') {
+          const o = s.oems[c.id];
+          pl.cash += o.slots * (OEMS[c.id].price / OEMS[c.id].slots) * 0.5;
+          s.oems[c.id] = { owner: null, slots: 0 };
+          log(s, `${pl.name} 转让 ${OEMS[c.id].name} 订单`, p);
+        } else if (c.action === 'bankrupt') bankrupt(s, p);
+        if (pd.reason === 'covenant' && !pl.bankrupt) {
+          if (leverage(s, p) <= 0.8) pl.breach = 0;
+        }
+        const ok = checkSolvency(s, p, pd.reason === 'covenant');
+        if (!ok) return s;
+        return advance(s);
+      }
+    }
+    throw new Error('unknown pending ' + pd.type);
+  }
+
+  function frameworkCost(s, p, id) {
+    return 1 + airlineFleet(s, p, id).reduce((t, a) => t + mv(s, a), 0) * 0.01;
+  }
+
+  function executeSign(s, p, id, qt, c) {
+    const pl = s.players[p];
+    const AD = AIRLINES[id];
+    let ac;
+    if (qt.source === 'idle') {
+      ac = s.aircraft[c.aircraftId];
+    } else {
+      ac = createAircraft(s, p, qt.typeId, qt.engine, qt.age);
+      if (qt.loan > 0) {
+        const fin = financeTerms(s, p, qt.finance, qt.isNew, qt.typeId);
+        ac.loan = { principal: qt.loan, spread: fin.spread, amortQ: qt.loan * fin.amort, kind: qt.finance };
+      }
+      if (qt.source === 'slot') s.oems[TYPES[qt.typeId].oem].slots--;
+    }
+    ac.lease = { airline: id, startQ: s.q, endQ: s.q + qt.term * 4, rentQ: qt.rentQ, lrf: qt.lrf, deposit: qt.deposit, mrBal: 0, deferred: 0, term: qt.term };
+    pl.cash -= qt.outflow;
+    s.airlines[id].lessor = p;
+    pl.stats.deals++;
+    pl.stats.bidsWon++;
+    pl.stats.dealValue += qt.value;
+    const src = { spot: '现货采购', slot: '自有交付位', slb: 'SLB 售后回租', idle: '闲置飞机再营销' }[qt.source];
+    log(
+      s,
+      `✔ ${pl.name} 与 ${AD.name} 签约：${TYPES[qt.typeId].name}（${qt.engine}）MSN ${ac.msn}，${src}，${qt.term} 年，LRF ${(qt.lrf * 100).toFixed(3)}%，月租 ${fmt(qt.rentM)}，${qt.finLabel}${qt.loan > 0 ? ' ' + fmt(qt.loan) : ''}`,
+      p,
+      'deal'
+    );
+  }
+
+  LT.engine = {
+    newGame,
+    advance,
+    act,
+    quote,
+    signOptions,
+    nav,
+    mv,
+    ageNow,
+    typeValue,
+    fleetValue,
+    totalDebt,
+    leverage,
+    isIG,
+    rcfAvail,
+    landingFee,
+    positionValue,
+    airlineFleet,
+    ownedAircraft,
+    dominates,
+    canSignAt,
+    airlineOpen,
+    marketLrf,
+    financeTerms,
+    saleProceeds,
+    frameworkCost,
+    sellables,
+    qLabel,
+    fmt,
+    rand,
+    BOARD_N,
+    JAIL_POS,
+    r2,
+  };
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+<script>
+// AI 租赁公司：对 state.pending 给出选择，和人类走同一个 act() 接口。
+(function (root) {
+  const LT = (root.LT = root.LT || {});
+  const D = LT.data;
+  const E = LT.engine;
+  const { AIRLINES, TYPES, OEMS, ENGINES } = D;
+
+  const profileOf = (s, p) => D.AI_PROFILES[s.players[p].ai] || D.AI_PROFILES.avolon;
+  const liquidity = (s, p) => s.players[p].cash + E.rcfAvail(s, p) * 0.5;
+
+  // 在某航司找最优签约方案
+  function bestSign(s, p, airlineId, maxRatio) {
+    const prof = profileOf(s, p);
+    const A = s.airlines[airlineId];
+    if (A.rating > prof.minRating) return null;
+    const opts = E.signOptions(s, p, airlineId);
+    const ratio = Math.min(maxRatio || 1.2, prof.lrfRatio);
+    const fins = ['eca', 'unsecured', 'bank'];
+    let best = null;
+    const consider = (params) => {
+      const q = E.quote(s, p, { ...params, airline: airlineId, ratio });
+      if (!q.ok || !q.affordable) return;
+      const after = s.players[p].cash - q.outflow;
+      if (after + E.rcfAvail(s, p) * 0.3 < prof.reserve) return;
+      let score = q.roe * q.acceptP;
+      if (prof.prefer && AIRLINES[airlineId].g === prof.prefer) score *= 1.2;
+      if (params.source === 'idle') score += 1; // 优先把闲置飞机租出去
+      if (!best || score > best.score) best = { score, params: { ...params, ratio }, q };
+    };
+    for (const id of opts.idle) {
+      const ac = s.aircraft[id];
+      const terms = [3, 5, 7, 6, 8, 10, 12];
+      for (const term of terms) consider({ source: 'idle', aircraftId: id, term, type: ac.type });
+    }
+    for (const t of opts.types) {
+      for (const source of t.sources) {
+        for (const engine of t.engines) {
+          const term = t.terms[Math.min(t.terms.length - 1, prof.bold > 0.6 ? 2 : 1)];
+          for (const finance of fins) consider({ type: t.typeId, engine, source, term, finance, ltv: prof.ltv + (finance === 'eca' ? 0.1 : 0) });
+        }
+      }
+    }
+    return best;
+  }
+
+  function decide(s, pd) {
+    const p = pd.p;
+    const pl = s.players[p];
+    const prof = profileOf(s, p);
+    switch (pd.type) {
+      case 'turn': {
+        if (pl.rcf > 0 && pl.cash > prof.reserve + 10) return { action: 'repay', amount: Math.min(pl.rcf, pl.cash - prof.reserve - 5) };
+        if (!s.turn.remoteUsed) {
+          for (const id in AIRLINES) {
+            if (!E.dominates(s, p, AIRLINES[id].g) || !E.canSignAt(s, p, id)) continue;
+            if (bestSign(s, p, id)) return { action: 'remote', airline: id };
+          }
+        }
+        return { action: 'roll' };
+      }
+      case 'jail':
+        if (pl.passCard) return { action: 'card' };
+        if (pl.cash > prof.reserve + 5) return { action: 'pay' };
+        return { action: 'roll' };
+      case 'airline': {
+        if (pd.mode === 'rival') {
+          const seller = s.airlines[pd.airline].lessor;
+          if (seller == null) return { action: 'pass' };
+          const fair = E.positionValue(s, seller, pd.airline);
+          const price = Math.max(1, fair * (1.06 + prof.bold * 0.08));
+          const A = s.airlines[pd.airline];
+          const chance = E.rand(s) < prof.bold * 0.35;
+          if (chance && A.rating <= prof.minRating && liquidity(s, p) - price > prof.reserve + 20) return { action: 'buyout', price: Math.round(price * 10) / 10 };
+          return { action: 'pass' };
+        }
+        const b = bestSign(s, p, pd.airline, pd.retry ? pd.maxRatio - 0.02 : null);
+        if (b && E.canSignAt(s, p, pd.airline)) {
+          if (pd.retry) b.params.ratio = Math.min(b.params.ratio, pd.maxRatio - 0.02);
+          return { action: 'sign', ...b.params };
+        }
+        const A = s.airlines[pd.airline];
+        if (A.lessor === p && !A.framework && E.airlineFleet(s, p, pd.airline).length >= 3) {
+          const cost = E.frameworkCost(s, p, pd.airline);
+          if (pl.cash - cost > prof.reserve + 5) return { action: 'framework' };
+        }
+        return { action: 'pass' };
+      }
+      case 'oem': {
+        const O = OEMS[pd.oem];
+        if (pd.mode === 'buy' && pl.cash > prof.reserve + O.price + 15 && E.rand(s) < 0.4 + prof.bold * 0.5) return { action: 'buy' };
+        if (pd.mode === 'topup' && s.oems[pd.oem].slots < 2 && pl.cash > prof.reserve + 20) return { action: 'topup', n: 1 };
+        return { action: 'pass' };
+      }
+      case 'engine':
+        if (pl.cash > prof.reserve + pd.price + 20 && E.rand(s) < 0.3 + prof.bold * 0.5) return { action: 'buy' };
+        return { action: 'pass' };
+      case 'market': {
+        if (pl.cash < 0 || E.leverage(s, p) > 0.8) {
+          const list = E.ownedAircraft(s, p)
+            .map((a) => ({ a, net: E.saleProceeds(s, a, true).net }))
+            .filter((x) => x.net > 0)
+            .sort((x, y) => y.net - x.net);
+          if (list.length) return { action: 'sell', aircraftId: list[0].a.id };
+        }
+        return { action: 'pass' };
+      }
+      case 'airshow': {
+        let best = null;
+        for (const id in AIRLINES) {
+          if (!E.canSignAt(s, p, id)) continue;
+          const b = bestSign(s, p, id);
+          if (b && (!best || b.score > best.score)) best = { id, score: b.score };
+        }
+        return best ? { action: 'visit', airline: best.id } : { action: 'pass' };
+      }
+      case 'shortfall': {
+        const items = E.sellables(s, p).filter((i) => i.net > 0);
+        if (!items.length) return { action: 'bankrupt' };
+        // 优先卖闲置飞机和收益最低的资产；缺口大时卖净回款最多的
+        const gap = pd.gap || 0;
+        const idle = items.filter((i) => i.kind === 'aircraft' && !s.aircraft[i.id].lease);
+        const pick = idle.length ? idle.sort((a, b) => b.net - a.net)[0] : items.filter((i) => i.net >= gap).sort((a, b) => a.net - b.net)[0] || items.sort((a, b) => b.net - a.net)[0];
+        if (pick.kind === 'engine') return { action: 'sellEngine', id: pick.id };
+        if (pick.kind === 'oem') return { action: 'sellOem', id: pick.id };
+        return { action: 'sell', aircraftId: pick.id };
+      }
+      case 'offer':
+        return { action: pd.price >= pd.fair * pl.acceptPremium ? 'accept' : 'reject' };
+    }
+    return { action: 'pass' };
+  }
+
+  LT.ai = { decide, bestSign };
+})(typeof globalThis !== 'undefined' ? globalThis : this);
+
+</script>
+<script>
+// 《租赁大亨》界面层：渲染状态、收集人类决策、按节奏驱动 AI。
+(function () {
+  const { engine: E, ai: AI, data: D } = window.LT;
+  const { TYPES, AIRLINES, GROUPS, BOARD, OEMS, ENGINES, RATINGS, CYCLES } = D;
+
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (x) => String(x).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]);
+  const m = (x, d = 1) => (x < -0.049 ? '−' : '') + '$' + Math.abs(x).toFixed(d) + 'm';
+  const pct = (x, d = 1) => (x * 100).toFixed(d) + '%';
+  const SAVE_KEY = 'lessor-tycoon-v1';
+  const PREF_KEY = 'lessor-tycoon-prefs';
+  const SPEEDS = { slow: 900, mid: 420, fast: 140, instant: 0 };
+  const SRC_LABEL = { spot: '现货采购', slb: 'SLB 售后回租', slot: '自有交付位', idle: '闲置飞机' };
+  const FIN_ORDER = ['bank', 'unsecured', 'eca', 'cash'];
+
+  let S = null;
+  const ui = { deal: null, dealKey: null, tab: 'fleet', speed: 'mid', timer: null, lastEvents: 0, lastRoll: null, confirm: null, buyRatio: 1.1, logMine: false, lastStamp: '' };
+
+  // ---------- 存取 ----------
+  function save() {
+    try {
+      localStorage.setItem(SAVE_KEY, JSON.stringify(S));
+    } catch (e) {}
+  }
+  function loadSave() {
+    try {
+      const x = localStorage.getItem(SAVE_KEY);
+      return x ? JSON.parse(x) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+  function savePrefs() {
+    try {
+      localStorage.setItem(PREF_KEY, JSON.stringify({ speed: ui.speed, tab: ui.tab }));
+    } catch (e) {}
+  }
+  function loadPrefs() {
+    try {
+      const p = JSON.parse(localStorage.getItem(PREF_KEY) || '{}');
+      if (p.speed && SPEEDS[p.speed] != null) ui.speed = p.speed;
+      if (p.tab) ui.tab = p.tab;
+    } catch (e) {}
+  }
+
+  const H = () => S.players.findIndex((p) => p.human);
+  function spaceName(i) {
+    const sp = BOARD[i];
+    if (sp.t === 'airline') return AIRLINES[sp.id].name;
+    if (sp.t === 'oem') return OEMS[sp.id].name;
+    if (sp.t === 'engine') return ENGINES[sp.id].name;
+    return sp.name;
+  }
+  const pColor = (i) => `var(--p${i % 4})`;
+  const pName = (i) => esc(S.players[i].name);
+  const ratingLabel = (id) => {
+    const A = S.airlines[id];
+    if (A.sanctioned) return ['X', 'rD'];
+    if (A.defaultUntil != null) return ['D', 'rD'];
+    return [RATINGS[A.rating], 'r' + A.rating];
+  };
+
+  function toast(msg) {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.hidden = false;
+    clearTimeout(ui.toastT);
+    ui.toastT = setTimeout(() => (t.hidden = true), 3200);
+  }
+
+  // ---------- 行动 ----------
+  function doAct(choice) {
+    const backup = JSON.stringify(S);
+    try {
+      E.act(S, choice);
+    } catch (e) {
+      S = JSON.parse(backup);
+      toast(e.message);
+      console.error(e);
+    }
+    ui.confirm = null;
+    save();
+    render();
+    pump();
+  }
+  function pump() {
+    clearTimeout(ui.timer);
+    if (!S || S.over || !S.pending) return;
+    if (S.players[S.pending.p].human) return;
+    const delay = SPEEDS[ui.speed];
+    ui.timer = setTimeout(() => {
+      let n = 0;
+      // 瞬间模式下一口气跑到轮到人类为止
+      do {
+        const pd = S.pending;
+        E.act(S, AI.decide(S, pd));
+        n++;
+      } while (delay === 0 && !S.over && S.pending && !S.players[S.pending.p].human && n < 400);
+      save();
+      render();
+      pump();
+    }, delay);
+  }
+
+  // ---------- 棋盘 ----------
+  function gridPos(i) {
+    if (i <= 11) return [12, 12 - i];
+    if (i <= 22) return [12 - (i - 11), 1];
+    if (i <= 33) return [1, 1 + (i - 22)];
+    return [1 + (i - 33), 12];
+  }
+  function buildBoard() {
+    const b = $('#board');
+    b.innerHTML = '';
+    BOARD.forEach((sp, i) => {
+      const c = document.createElement('div');
+      c.id = 'c' + i;
+      const [r, col] = gridPos(i);
+      c.style.gridArea = `${r} / ${col}`;
+      b.appendChild(c);
+    });
+    const center = document.createElement('div');
+    center.className = 'center';
+    center.id = 'center';
+    b.appendChild(center);
+  }
+  function cellHTML(i) {
+    const sp = BOARD[i];
+    let cls = 'cell';
+    let style = '';
+    let html = '';
+    let title = '';
+    if (sp.t === 'airline') {
+      const A = S.airlines[sp.id];
+      const AD = AIRLINES[sp.id];
+      const [rt, rc] = ratingLabel(sp.id);
+      let own = '';
+      if (A.lessor != null) {
+        const n = E.airlineFleet(S, A.lessor, sp.id).length;
+        cls += ' owned';
+        style = `--owner:${pColor(A.lessor)}`;
+        own = `×${n}${A.framework ? '★' : ''}`;
+      }
+      if (!E.airlineOpen(S, sp.id)) cls += ' dim';
+      html = `<i class="strip" style="background:var(--g-${AD.g})"></i><b class="code">${sp.id}</b><span class="nm">${esc(AD.name)}</span><span class="meta"><span class="rt ${rc}">${rt}</span><span class="own">${own}</span></span>`;
+      title = `${AD.name} ${AD.cn} · ${GROUPS[AD.g].name} · 评级 ${rt}${A.lessor != null ? ' · 主力出租人 ' + S.players[A.lessor].name : ' · 开放'}`;
+    } else if (sp.t === 'oem') {
+      const o = S.oems[sp.id];
+      cls += ' special';
+      if (o.owner != null) {
+        cls += ' owned';
+        style = `--owner:${pColor(o.owner)}`;
+      }
+      html = `<b class="code">${esc(OEMS[sp.id].name)}</b><span class="nm">${o.owner != null ? '交付位 ' + o.slots : '大订单 ' + m(OEMS[sp.id].price, 1)}</span>`;
+      title = `${OEMS[sp.id].name} ${OEMS[sp.id].cn} 交付位订单`;
+    } else if (sp.t === 'engine') {
+      const e = S.engines[sp.id];
+      cls += ' special';
+      if (e.owner != null) {
+        cls += ' owned';
+        style = `--owner:${pColor(e.owner)}`;
+      }
+      html = `<b class="code">${sp.id === 'cfm' ? 'CFM' : 'P&amp;W'}</b><span class="nm">备发平台</span>`;
+      title = ENGINES[sp.id].name + ' 备发租赁平台';
+    } else if (sp.t === 'ch' || sp.t === 'cc') {
+      cls += ' special';
+      html = `<b class="code">${sp.t === 'ch' ? '快讯' : '内部'}</b><span class="nm">${sp.name}</span>`;
+      title = sp.name;
+    } else if (sp.t === 'tax') {
+      cls += ' special';
+      html = `<b class="code">${sp.id === 'wht' ? 'WHT' : 'INS'}</b><span class="nm">${sp.name}</span>`;
+      title = sp.name;
+    } else if (sp.t === 'market') {
+      cls += ' special';
+      html = `<b class="code">二手</b><span class="nm">交易平台</span>`;
+      title = '二手飞机交易平台：买卖飞机';
+    } else {
+      cls += ' corner';
+      const code = { go: 'DUB', jail: '审查', airshow: '航展', gotojail: 'KYC' }[sp.t];
+      html = `<b class="code">${code}</b><span class="nm">${sp.name}<br>${sp.sub || ''}</span>`;
+      title = `${sp.name} · ${sp.sub || ''}`;
+    }
+    const here = S.players.filter((p) => !p.bankrupt && p.pos === i);
+    if (here.length) html += `<span class="tokens">${here.map((p) => `<i class="tok${p.human ? ' me' : ''}" style="--c:${pColor(p.id)}" title="${esc(p.name)}"></i>`).join('')}</span>`;
+    if (S.pending && S.players[S.turn.p] && S.players[S.turn.p].pos === i) cls += ' here';
+    return { cls, style, html, title };
+  }
+  function renderBoard() {
+    BOARD.forEach((sp, i) => {
+      const c = document.getElementById('c' + i);
+      const x = cellHTML(i);
+      c.className = x.cls;
+      c.setAttribute('style', `${c.style.gridArea ? 'grid-area:' + c.style.gridArea + ';' : ''}${x.style}`);
+      c.title = x.title;
+      c.innerHTML = x.html;
+    });
+    renderCenter();
+  }
+  const PIPS = { 1: [4], 2: [0, 8], 3: [0, 4, 8], 4: [0, 2, 6, 8], 5: [0, 2, 4, 6, 8], 6: [0, 2, 3, 5, 6, 8] };
+  const dieHTML = (n, rolling) => `<div class="die${rolling ? ' rolling' : ''}" aria-label="${n || ''}">${Array.from({ length: 9 }, (_, k) => `<i class="${n && PIPS[n].includes(k) ? 'on' : ''}"></i>`).join('')}</div>`;
+  function renderCenter() {
+    const c = $('#center');
+    const mk = S.market;
+    const cur = S.players[S.turn.p];
+    const roll = S.turn.roll || [0, 0];
+    const rolling = S.turn.roll && ui.lastRoll !== JSON.stringify(S.turn.roll) + S.q + S.turn.p;
+    ui.lastRoll = JSON.stringify(S.turn.roll) + S.q + S.turn.p;
+    const ev = S.events[S.events.length - 1];
+    const fresh = S.events.length > ui.lastEvents;
+    ui.lastEvents = S.events.length;
+    const recent = S.log
+      .filter((l) => l.kind !== 'roll' && l.kind !== 'sys')
+      .slice(-5)
+      .reverse()
+      .map((l) => `<div>${esc(l.text)}</div>`)
+      .join('');
+    const qn = Math.min(S.q + 1, S.maxQ);
+    c.innerHTML = `
+      <div class="brand"><h1>租赁大亨</h1><span class="en">LESSOR TYCOON</span></div>
+      <div class="instruments">
+        <div class="inst"><div class="eyebrow">季度</div><div class="v">${E.qLabel(S, Math.min(S.q, S.maxQ - 1))}</div></div>
+        <div class="inst"><div class="eyebrow">进度</div><div class="v">${qn}/${S.maxQ}</div></div>
+        <div class="inst"><div class="eyebrow">SOFR</div><div class="v">${pct(mk.sofr, 2)}</div></div>
+        <div class="inst"><div class="eyebrow">周期</div><div class="v" style="color:${['var(--good)', 'var(--ink)', 'var(--warn)', 'var(--bad)'][mk.cycle]}">${CYCLES[mk.cycle].name}</div></div>
+      </div>
+      <div class="stage">
+        <div>
+          <div class="dice">${dieHTML(roll[0], rolling)}${dieHTML(roll[1], rolling)}</div>
+          <div class="turn-who">${S.over ? '<b>游戏结束</b>' : `<b style="color:${pColor(cur.id)}">${esc(cur.name)}</b><br>${cur.human ? '轮到你' : '行动中'}`}</div>
+        </div>
+        <div style="min-height:0;display:grid;gap:8px;align-content:start">
+          ${
+            ev
+              ? `<div class="card${fresh ? ' fresh' : ''}"><div class="deck">${ev.deck === 'ch' ? '市场快讯 · MARKET NEWS' : '公司内部 · INTERNAL'} · ${esc(S.players[ev.p].name)} · ${E.qLabel(S, ev.q)}</div><h3>${esc(ev.title)}</h3><p>${esc(ev.text)}</p></div>`
+              : `<div class="card"><div class="deck">航线图 · ROUTE MAP</div><h3>在全球 25 家航司之间出租飞机</h3><p>落在未被锁定的航司上可以报价签约；集齐一个区域成为区域主力出租人。10 年后比公司净资产（NAV）。</p></div>`
+          }
+          <div class="recent">${recent}</div>
+        </div>
+      </div>
+      <div class="legend">
+        <div>${Object.keys(GROUPS).map((g) => `<span><i style="background:var(--g-${g})"></i>${GROUPS[g].name}</span>`).join('')}</div>
+        <div>${S.players.map((p) => `<span><i class="round" style="background:${pColor(p.id)}"></i>${esc(p.name)}</span>`).join('')}<span>×n 在租架数 · ★ 框架协议</span></div>
+      </div>`;
+  }
+
+  // ---------- 我的公司 ----------
+  function spark(values) {
+    if (values.length < 2) return '';
+    const w = 300,
+      h = 40;
+    const min = Math.min(...values),
+      max = Math.max(...values);
+    const span = max - min || 1;
+    const pts = values.map((v, i) => [(i / (values.length - 1)) * w, h - 4 - ((v - min) / span) * (h - 8)]);
+    const d = pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+    const last = pts[pts.length - 1];
+    return `<svg class="spark" viewBox="0 0 ${w} ${h}" preserveAspectRatio="none" aria-label="NAV 走势"><path d="${d} L${w} ${h} L0 ${h} Z" fill="var(--accent)" opacity="0.1"/><path d="${d}" fill="none" stroke="var(--accent)" stroke-width="1.5" vector-effect="non-scaling-stroke"/><circle cx="${last[0]}" cy="${last[1]}" r="2.5" fill="var(--accent)"/></svg>`;
+  }
+  function renderMe() {
+    const h = H();
+    const pl = S.players[h];
+    const navv = E.nav(S, h);
+    const lev = E.leverage(S, h);
+    const own = E.ownedAircraft(S, h);
+    const leased = own.filter((a) => a.lease);
+    const rentQ = leased.reduce((t, a) => t + a.lease.rentQ, 0);
+    const hist = [150, ...S.reports.map((r) => (r.players[h] ? r.players[h].nav : null)).filter((x) => x != null)];
+    if (!S.over) hist.push(navv);
+    const ig = E.isIG(S, h);
+    $('#me').innerHTML = `
+      <div class="panel-h"><h2>${esc(pl.name)} · 你的公司</h2><span class="eyebrow" style="color:${ig ? 'var(--good)' : 'var(--ink-3)'}">${ig ? '投资级' : '高收益级'}</span></div>
+      <div class="panel-b me-grid">
+        <div class="kv big"><span class="eyebrow">NAV</span><span class="v ${navv >= 150 ? 'good' : 'bad'}">${m(navv)}</span></div>
+        <div class="kv big"><span class="eyebrow">现金</span><span class="v ${pl.cash < 10 ? 'warn' : ''}">${m(pl.cash)}</span></div>
+        <div class="kv big"><span class="eyebrow">杠杆</span><span class="v ${lev > 0.85 ? 'bad' : lev > 0.75 ? 'warn' : ''}">${pct(lev, 0)}</span></div>
+        <div class="kv"><span class="eyebrow">机队</span><span class="v">${leased.length}<small> 在租</small> ${own.length - leased.length}<small> 闲置</small></span></div>
+        <div class="kv"><span class="eyebrow">季度租金</span><span class="v">${m(rentQ)}</span></div>
+        <div class="kv"><span class="eyebrow">RCF 已用</span><span class="v">${m(pl.rcf, 0)}<small> / ${pl.rcfLimit}</small></span></div>
+        ${spark(hist)}
+        ${pl.passCard ? '<div class="kv"><span class="eyebrow">持有</span><span class="v" style="font-size:13px">合规通行证</span></div>' : ''}
+        ${pl.referral ? '<div class="kv"><span class="eyebrow">加成</span><span class="v" style="font-size:13px">下次签约 +15%</span></div>' : ''}
+        ${pl.stranded.length ? `<div class="kv"><span class="eyebrow">搁浅债务</span><span class="v bad">${m(pl.stranded.reduce((t, d) => t + d.principal, 0))}</span></div>` : ''}
+        ${pl.receivables.length ? `<div class="kv"><span class="eyebrow">应收保险</span><span class="v good">${m(pl.receivables.reduce((t, d) => t + d.amount, 0))}</span></div>` : ''}
+      </div>`;
+  }
+
+  function renderPlayers() {
+    const list = S.players.map((p) => ({ p, nav: p.bankrupt ? -Infinity : E.nav(S, p.id) })).sort((a, b) => b.nav - a.nav);
+    $('#players').innerHTML = list
+      .map(({ p, nav }) => {
+        const own = E.ownedAircraft(S, p.id).length;
+        return `<div class="pl${p.id === S.turn.p && !S.over ? ' cur' : ''}${p.bankrupt ? ' dead' : ''}" style="--c:${pColor(p.id)}">
+          <i class="dot"></i><span class="n">${esc(p.name)} ${p.human ? '<small>你</small>' : `<small>${esc(p.cn)}</small>`}</span><span class="navv">${p.bankrupt ? '破产' : nav.toFixed(1)}</span>
+          <span class="d"><span>现金 ${p.cash.toFixed(1)}</span><span>机队 ${own}</span><span>杠杆 ${pct(E.leverage(S, p.id), 0)}</span><span>${esc(spaceName(p.pos))}</span></span>
+        </div>`;
+      })
+      .join('');
+  }
+
+  function renderLog() {
+    const h = H();
+    const items = S.log.filter((l) => !ui.logMine || l.p === h).slice(-90).reverse();
+    $('#log').innerHTML = items
+      .map((l) => {
+        const who = l.p != null ? `<span class="who" style="--c:${pColor(l.p)}">●</span> ` : '';
+        return `<div class="k-${l.kind}${l.p === h ? ' mine' : ''}">${who}${esc(l.text)}</div>`;
+      })
+      .join('');
+  }
+
+  // ---------- 决策面板 ----------
+  function airlineHead(id) {
+    const AD = AIRLINES[id];
+    const A = S.airlines[id];
+    const [rt] = ratingLabel(id);
+    const h = H();
+    const mine = E.airlineFleet(S, h, id).length;
+    return `<div class="airline-head" style="--gc:var(--g-${AD.g})"><span class="badge">${id}</span>
+      <div><div class="t">${esc(AD.name)}</div><div class="s">${AD.cn} · ${GROUPS[AD.g].name} · 你的机队 ${mine}/${AD.cap}${A.framework ? ' · 框架协议' : ''}</div></div>
+      <span class="rt r${A.rating}" style="font:700 16px var(--f-mono);padding:4px 7px">${rt}</span></div>`;
+  }
+
+  function dealDefaults(pd) {
+    const h = H();
+    const opts = E.signOptions(S, h, pd.airline);
+    const t = opts.types[0];
+    return { type: t.typeId, engine: t.engines[0], source: opts.idle.length ? 'idle' : 'spot', aircraftId: opts.idle[0] || null, term: t.terms[1], ratio: 1, finance: 'bank', ltv: 0.75 };
+  }
+  function normalizeDeal(pd) {
+    const h = H();
+    const d = ui.deal;
+    const opts = E.signOptions(S, h, pd.airline);
+    if (d.source === 'idle') {
+      if (!opts.idle.includes(d.aircraftId)) d.aircraftId = opts.idle[0] || null;
+      if (!d.aircraftId) d.source = 'spot';
+    }
+    const t = opts.types.find((x) => x.typeId === d.type) || opts.types[0];
+    d.type = t.typeId;
+    if (d.source !== 'idle' && !t.sources.includes(d.source)) d.source = 'spot';
+    if (!t.engines.includes(d.engine)) d.engine = t.engines[0];
+    let age = TYPES[d.type].age0;
+    if (d.source === 'idle' && d.aircraftId) age = E.ageNow(S, S.aircraft[d.aircraftId]);
+    const terms = age < 3 ? [6, 8, 10, 12] : [3, 5, 7];
+    if (!terms.includes(d.term)) d.term = terms[1];
+    if (pd.retry) d.ratio = Math.min(d.ratio, pd.maxRatio);
+    const f = E.financeTerms(S, h, d.finance, age < 1, d.type);
+    if (!f.ok) d.finance = 'bank';
+    const f2 = E.financeTerms(S, h, d.finance, age < 1, d.type);
+    if (d.ltv > f2.maxLtv) d.ltv = f2.maxLtv;
+    return { opts, terms, age };
+  }
+
+  function quoteHTML(q) {
+    if (!q.ok) return `<div class="note bad">${esc(q.why)}</div>`;
+    const rows = [
+      ['飞机价值', m(q.value)],
+      ['购机价格', q.source === 'idle' ? '已持有' : m(q.price)],
+      ['市场 LRF', pct(q.marketLrf, 3)],
+      ['你的 LRF', pct(q.lrf, 3)],
+      ['月租金', m(q.rentM, 2)],
+      ['季度租金', m(q.rentQ, 2)],
+      ['保证金（2 个月）', m(q.deposit, 2)],
+      ['MR / 季', m(q.mrQ, 2)],
+      ['贷款', q.source === 'idle' ? '沿用' : m(q.loan)],
+      ['全包利率', pct(q.allIn, 2)],
+      ['季度利息', m(q.interestQ, 2)],
+      ['季度折旧', m(q.depQ, 2)],
+      ['季度净收益', m(q.netQ, 2)],
+      ['租金收益率', pct(q.yieldA, 1)],
+      ['股本 ROE（年化）', pct(q.roe, 1)],
+      ['本次现金流出', m(q.outflow)],
+    ];
+    return `<div class="quote">${rows.map(([a, b]) => `<div><span>${a}</span><span>${b}</span></div>`).join('')}</div>
+      ${!q.affordable ? `<div class="note bad">${esc(q.why)}</div>` : ''}`;
+  }
+
+  function renderDeal(pd) {
+    const h = H();
+    const key = pd.airline + '|' + pd.signed + '|' + S.q;
+    if (ui.dealKey !== key || !ui.deal) {
+      ui.deal = dealDefaults(pd);
+      ui.dealKey = key;
+    }
+    const { opts, terms, age } = normalizeDeal(pd);
+    const d = ui.deal;
+    const canSign = E.canSignAt(S, h, pd.airline);
+    const A = S.airlines[pd.airline];
+    const canFw = A.lessor === h && !A.framework && E.airlineFleet(S, h, pd.airline).length >= 3;
+    const q = canSign ? E.quote(S, h, { ...d, airline: pd.airline }) : { ok: false, why: '已达该航司机队上限' };
+    const t = opts.types.find((x) => x.typeId === d.type);
+    const srcs = ['spot', 'slb', 'slot', 'idle'];
+    const chip = (attr, val, label, on, disabled, tip) => `<button type="button" class="chip" data-deal="${attr}" data-val="${esc(val)}" aria-pressed="${on}" ${disabled ? 'disabled' : ''} ${tip ? `title="${esc(tip)}"` : ''}>${label}</button>`;
+    let body = '';
+    if (canSign) {
+      const srcChips = srcs
+        .map((sId) => {
+          let ok = sId === 'idle' ? opts.idle.length > 0 : t.sources.includes(sId);
+          let label = SRC_LABEL[sId];
+          if (sId === 'slot') {
+            const o = S.oems[TYPES[d.type].oem];
+            label += o && o.owner === h ? ` <small>${o.slots}</small>` : '';
+          }
+          if (sId === 'idle') label += ` <small>${opts.idle.length}</small>`;
+          return chip('source', sId, label, d.source === sId, !ok, sId === 'slot' ? '需先在主机厂格购买交付位；新机价格 −12%' : sId === 'slb' ? '从航司买入新机再租回：价格 = 市值，LRF −4%，成交概率 +12%' : sId === 'idle' ? '把闲置飞机租给这家航司，交接成本 1%' : '按市值 +2% 采购')
+        })
+        .join('');
+      const typeBlock =
+        d.source === 'idle'
+          ? `<div class="field"><span class="eyebrow">闲置飞机</span><div class="chips">${opts.idle
+              .map((id) => {
+                const a = S.aircraft[id];
+                return chip('aircraftId', id, `${TYPES[a.type].name} <small>MSN ${a.msn} · ${E.ageNow(S, a).toFixed(1)}年</small>`, d.aircraftId === id, false);
+              })
+              .join('')}</div></div>`
+          : `<div class="field"><span class="eyebrow">机型</span><div class="chips">${opts.types
+              .map((x) => {
+                const T = TYPES[x.typeId];
+                const v = E.typeValue(S, x.typeId, T.age0, x.engines[0]);
+                return chip('type', x.typeId, `${T.name} <small>${m(v, 0)}${T.age0 ? ' · ' + T.age0 + '年' : ''}</small>`, d.type === x.typeId, false);
+              })
+              .join('')}</div></div>
+            ${t.engines.length > 1 ? `<div class="field"><span class="eyebrow">发动机</span><div class="chips">${t.engines.map((e) => chip('engine', e, `${e}${D.GTF.includes(e) ? ' <small>GTF</small>' : ''}`, d.engine === e, false, D.GTF.includes(e) ? 'GTF：价值略低（−2%），有召回事件风险' : '')).join('')}</div></div>` : ''}`;
+      const finChips =
+        d.source === 'idle'
+          ? '<span class="note">闲置飞机沿用原有融资</span>'
+          : FIN_ORDER.map((k) => {
+              const f = E.financeTerms(S, h, k, age < 1, d.type);
+              return chip('finance', k, `${f.label}${k !== 'cash' ? ` <small>+${(f.spread * 10000).toFixed(0)}bp</small>` : ''}`, d.finance === k, !f.ok, f.ok ? `最高 LTV ${pct(f.maxLtv, 0)}，季度摊还 ${pct(f.amort, 1)}，前端费 ${pct(f.fee, 2)}` : f.why);
+            }).join('');
+      const fin = E.financeTerms(S, h, d.finance, age < 1, d.type);
+      const maxR = pd.retry ? pd.maxRatio : 1.12;
+      body = `
+        ${pd.retry ? `<div class="note bad">${esc(AIRLINES[pd.airline].name)} 拒绝了上次报价。可以降低 LRF 再报一次（报价系数不高于 ${pd.maxRatio.toFixed(2)}）。</div>` : ''}
+        ${pd.signed ? `<div class="note good">本次拜访已签 ${pd.signed} 架，还可再签 ${pd.limit - pd.signed} 架。</div>` : ''}
+        <div class="field"><span class="eyebrow">飞机来源</span><div class="chips">${srcChips}</div></div>
+        ${typeBlock}
+        <div class="field"><span class="eyebrow">租期</span><div class="chips">${terms.map((y) => chip('term', y, `${y} 年`, d.term === y, false)).join('')}</div></div>
+        <div class="field"><label for="ratio">LRF 报价（相对市场）</label>
+          <div class="slider-row"><input type="range" id="ratio" min="0.88" max="${maxR.toFixed(3)}" step="0.005" value="${d.ratio}"><output id="ratio-out">${d.ratio >= 1 ? '+' : ''}${((d.ratio - 1) * 100).toFixed(1)}%</output></div></div>
+        <div class="field"><span class="eyebrow">融资</span><div class="chips">${finChips}</div></div>
+        ${d.source !== 'idle' && d.finance !== 'cash' ? `<div class="field"><label for="ltv">贷款价值比 LTV</label><div class="slider-row"><input type="range" id="ltv" min="0" max="${fin.maxLtv}" step="0.05" value="${d.ltv}"><output id="ltv-out">${pct(d.ltv, 0)}</output></div></div>` : ''}
+        <div class="gauge"><span class="eyebrow">成交概率</span><span class="bar"><i id="acc-bar" style="width:${q.ok ? q.acceptP * 100 : 0}%"></i></span><b id="acc">${q.ok ? pct(q.acceptP, 0) : '—'}</b></div>
+        <div id="quote">${quoteHTML(q)}</div>`;
+    } else {
+      body = `<div class="note">你在 ${esc(AIRLINES[pd.airline].name)} 的机队已达上限（${AIRLINES[pd.airline].cap} 架）。</div>`;
+    }
+    const fwBtn = canFw ? `<button type="button" class="btn" data-act="framework">签长期框架协议 ${m(E.frameworkCost(S, h, pd.airline))}</button>` : '';
+    return `${airlineHead(pd.airline)}
+      <div class="stack">${body}
+      <div class="row">${canSign ? `<button type="button" class="btn primary" data-act="sign" ${q.ok && q.affordable ? '' : 'disabled'}>提交报价</button>` : ''}${fwBtn}<button type="button" class="btn ghost" data-act="pass">${pd.signed ? '完成拜访' : '放弃'}</button></div>
+      ${canFw ? '<div class="note">框架协议：对手落在此格的竞标成本 ×1.5，到期续租概率 +30%，追加飞机成交概率 +10%。</div>' : ''}
+      </div>`;
+  }
+
+  function updateQuoteOnly(pd) {
+    const h = H();
+    const q = E.quote(S, h, { ...ui.deal, airline: pd.airline });
+    $('#quote').innerHTML = quoteHTML(q);
+    $('#acc').textContent = q.ok ? pct(q.acceptP, 0) : '—';
+    $('#acc-bar').style.width = (q.ok ? q.acceptP * 100 : 0) + '%';
+    const btn = $('[data-act="sign"]');
+    if (btn) btn.disabled = !(q.ok && q.affordable);
+    const ro = $('#ratio-out');
+    if (ro) ro.textContent = `${ui.deal.ratio >= 1 ? '+' : ''}${((ui.deal.ratio - 1) * 100).toFixed(1)}%`;
+    const lo = $('#ltv-out');
+    if (lo) lo.textContent = pct(ui.deal.ltv, 0);
+  }
+
+  function renderRival(pd) {
+    const h = H();
+    const seller = S.airlines[pd.airline].lessor;
+    if (seller == null) return `${airlineHead(pd.airline)}<div class="row"><button type="button" class="btn" data-act="pass">离开</button></div>`;
+    const fleet = E.airlineFleet(S, seller, pd.airline);
+    const fair = E.positionValue(S, seller, pd.airline);
+    const price = Math.max(0.5, fair * ui.buyRatio);
+    const afford = S.players[h].cash + E.rcfAvail(S, h) >= price;
+    return `${airlineHead(pd.airline)}
+      <div class="stack">
+        <div class="note">${pName(seller)} 是这家航司的主力出租人，你已支付竞标失败成本。可以尝试收购对方在此的全部租约组合（贷款一并承接）。</div>
+        <div class="list">${fleet
+          .map(
+            (a) => `<div class="list-item"><div><b>${TYPES[a.type].name}</b> <span class="mono">MSN ${a.msn}</span><div class="sub">剩余 ${((a.lease.endQ - S.q) / 4).toFixed(1)} 年 · 月租 ${m(a.lease.rentQ / 3, 2)} · 市值 ${m(E.mv(S, a))} · 贷款 ${m(a.loan ? a.loan.principal : 0)}</div></div></div>`
+          )
+          .join('')}</div>
+        <div class="quote"><div><span>股权估值参考</span><span>${m(fair)}</span></div><div><span>你的报价</span><span id="buy-price">${m(price)}</span></div></div>
+        <div class="field"><label for="buy">报价（相对估值）</label><div class="slider-row"><input type="range" id="buy" min="0.8" max="1.6" step="0.01" value="${ui.buyRatio}"><output id="buy-out">${pct(ui.buyRatio, 0)}</output></div></div>
+        <div class="note">AI 通常要求高于估值 5–15% 才会出售。</div>
+        <div class="row"><button type="button" class="btn primary" data-act="buyout" ${afford ? '' : 'disabled'}>发出收购报价</button><button type="button" class="btn ghost" data-act="pass">离开</button></div>
+      </div>`;
+  }
+
+  function sellList(pd, atMarket) {
+    const h = H();
+    const own = E.ownedAircraft(S, h);
+    if (!own.length) return '<div class="empty">没有可出售的飞机</div>';
+    return `<div class="list">${own
+      .map((a) => {
+        const pr = E.saleProceeds(S, a, atMarket);
+        const lessee = a.lease ? AIRLINES[a.lease.airline].name : '闲置';
+        const armed = ui.confirm === a.id;
+        return `<div class="list-item"><div><b>${TYPES[a.type].name}</b> <span class="mono">MSN ${a.msn}</span><div class="sub">${esc(lessee)} · 售价 ${m(pr.price)} · 贷款 ${m(pr.loan)}${pr.liab ? ' · 保证金+MR ' + m(pr.liab) : ''}</div></div>
+          <button type="button" class="btn small${armed ? ' primary' : ''}" data-sell="${a.id}">${armed ? '确认 ' : '出售 '}<span class="mono">${m(pr.net)}</span></button></div>`;
+      })
+      .join('')}</div>`;
+  }
+
+  function renderDecision() {
+    const box = $('#decision');
+    const pd = S.pending;
+    const h = H();
+    if (S.over) {
+      box.className = 'panel decision';
+      box.innerHTML = `<div class="panel-h"><h2>游戏结束</h2></div><div class="panel-b stack"><p class="dec-title">冠军：${pName(S.winner)}</p><div class="row"><button type="button" class="btn primary" data-act="results">查看结算</button><button type="button" class="btn" data-act="newgame">再来一局</button></div></div>`;
+      return;
+    }
+    if (!pd) {
+      box.innerHTML = '';
+      return;
+    }
+    const mine = pd.p === h;
+    box.className = 'panel decision' + (mine ? ' mine' : '');
+    if (!mine) {
+      const who = S.players[pd.p];
+      const what = { turn: '准备掷骰', airline: '在航司洽谈', oem: '考虑主机厂订单', engine: '考虑备发平台', market: '在二手平台交易', airshow: '在航展上', shortfall: '处理资金缺口', jail: '在合规审查中' }[pd.type] || '决策中';
+      box.innerHTML = `<div class="panel-h"><h2>对手回合</h2><span class="eyebrow">${E.qLabel(S)}</span></div><div class="panel-b"><div class="waiting" style="--c:${pColor(pd.p)}"><i class="pulse"></i><span><b>${esc(who.name)}</b> ${what}…</span></div></div>`;
+      return;
+    }
+    const pl = S.players[h];
+    let title = '';
+    let inner = '';
+    switch (pd.type) {
+      case 'turn': {
+        const remotes = Object.keys(AIRLINES).filter((id) => E.dominates(S, h, AIRLINES[id].g) && E.canSignAt(S, h, id));
+        title = pd.again ? '掷出双数，再掷一次' : '你的回合';
+        inner = `<p class="dec-sub">当前位置：${esc(spaceName(pl.pos))}。掷骰前可以先做资产管理。</p>
+          <div class="stack">
+            <div class="row"><button type="button" class="btn primary big" data-act="roll">掷骰子</button>
+            ${pl.rcf > 0 && pl.cash > 0 ? `<button type="button" class="btn" data-act="repay">偿还 RCF ${m(Math.min(pl.rcf, pl.cash))}</button>` : ''}</div>
+            ${remotes.length && !S.turn.remoteUsed ? `<div class="field"><span class="eyebrow">区域主力出租人 · 远程加机（每回合一次）</span><div class="chips">${remotes.map((id) => `<button type="button" class="chip" data-remote="${id}">${id} ${esc(AIRLINES[id].name)}</button>`).join('')}</div></div>` : ''}
+            <div class="note">需要现金时，可以在下方「我的机队」里出售飞机（在交易平台外出售折价 4%）。</div>
+          </div>`;
+        break;
+      }
+      case 'jail':
+        title = '合规审查中';
+        inner = `<p class="dec-sub">第 ${pd.tries} 次尝试。掷出双数即可离开，满三次必须缴费。</p>
+          <div class="row"><button type="button" class="btn primary" data-act="jail-roll">掷骰（求双数）</button><button type="button" class="btn" data-act="jail-pay">支付 $1.0m 离开</button>${pl.passCard ? '<button type="button" class="btn" data-act="jail-card">使用合规通行证</button>' : ''}</div>`;
+        break;
+      case 'airline':
+        title = pd.mode === 'rival' ? '对手的客户' : pd.airshow ? '航展洽谈' : pd.remote ? '远程加机' : pd.mode === 'own' ? '追加飞机' : '新客户拜访';
+        inner = pd.mode === 'rival' ? renderRival(pd) : renderDeal(pd);
+        break;
+      case 'offer': {
+        const b = S.players[pd.buyer];
+        title = '收到收购报价';
+        inner = `${airlineHead(pd.airline)}<p class="dec-sub"><b>${esc(b.name)}</b> 想以 <b class="mono">${m(pd.price)}</b> 收购你在 ${esc(AIRLINES[pd.airline].name)} 的全部租约组合（贷款一并转让）。你的股权估值约 <span class="mono">${m(pd.fair)}</span>（溢价 ${pct(pd.price / Math.max(0.01, pd.fair) - 1, 0)}）。</p>
+          <div class="row"><button type="button" class="btn primary" data-act="accept">接受</button><button type="button" class="btn" data-act="reject">拒绝</button></div>`;
+        break;
+      }
+      case 'oem': {
+        const O = OEMS[pd.oem];
+        title = `${O.name} ${O.cn}`;
+        inner =
+          pd.mode === 'buy'
+            ? `<p class="dec-sub">下达大订单：${O.slots} 个交付位，预付 ${m(O.price)}。用交付位购买 ${O.name} 新机价格 −12%；每年补充 1 个交付位。对手落在这里要向你支付交付位转让溢价（持有 1/2/3/4 家主机厂订单：$1m/$2m/$4m/$8m）。</p>
+             <div class="row"><button type="button" class="btn primary" data-act="oem-buy" ${pl.cash + E.rcfAvail(S, h) >= O.price ? '' : 'disabled'}>下单 ${m(O.price)}</button><button type="button" class="btn ghost" data-act="pass">不下单</button></div>`
+            : `<p class="dec-sub">你持有 ${S.oems[pd.oem].slots} 个交付位。可以追加，每个 ${m(pd.price)}。</p>
+             <div class="row"><button type="button" class="btn primary" data-act="oem-top1">追加 1 个</button><button type="button" class="btn" data-act="oem-top2">追加 2 个</button><button type="button" class="btn ghost" data-act="pass">不追加</button></div>`;
+        break;
+      }
+      case 'engine': {
+        const G = ENGINES[pd.engine];
+        title = G.name;
+        inner = `<p class="dec-sub">收购备发租赁平台 ${m(G.price)}：每季度稳定收入 ${m(G.income)}。对手落在这里按骰子点数付费（持有一家 ×$0.25m，两家 ×$0.6m）。</p>
+          <div class="row"><button type="button" class="btn primary" data-act="engine-buy" ${pl.cash + E.rcfAvail(S, h) >= G.price ? '' : 'disabled'}>收购 ${m(G.price)}</button><button type="button" class="btn ghost" data-act="pass">不收购</button></div>`;
+        break;
+      }
+      case 'market': {
+        title = '二手飞机交易平台';
+        const used = ['B738', 'A20C', 'B77W'];
+        inner = `<p class="dec-sub">在平台出售不打折（带租约的飞机按承租人信用定价）。也可以买入二手飞机作为闲置库存，之后落在合适的航司时再租出。</p>
+          <div class="field"><span class="eyebrow">出售</span>${sellList(pd, true)}</div>
+          <div class="field"><span class="eyebrow">买入闲置二手机（60% 银行融资）</span><div class="list">${used
+            .map((t) => {
+              const T = TYPES[t];
+              const price = E.typeValue(S, t, T.age0, T.engines[0]) * 1.02;
+              return `<div class="list-item"><div><b>${T.name}</b><div class="sub">${T.age0} 年机龄 · 价格 ${m(price)} · 股本 ${m(price * 0.4)}</div></div><button type="button" class="btn small" data-buyused="${t}" ${pl.cash + E.rcfAvail(S, h) >= price * 0.4 ? '' : 'disabled'}>买入</button></div>`;
+            })
+            .join('')}</div></div>
+          <div class="row"><button type="button" class="btn primary" data-act="pass">离开平台</button></div>`;
+        break;
+      }
+      case 'airshow': {
+        title = '航展 · 远程签约一次';
+        const open = Object.keys(AIRLINES).filter((id) => E.canSignAt(S, h, id));
+        inner = `<p class="dec-sub">选择一家可签约的航司当场洽谈（未被锁定，或你已是其主力出租人）。</p>
+          <div class="list">${open
+            .map((id) => {
+              const AD = AIRLINES[id];
+              const [rt, rc] = ratingLabel(id);
+              return `<div class="list-item"><div><span class="gdot" style="--gc:var(--g-${AD.g})"></span><b>${id}</b> ${esc(AD.name)} <span class="rt ${rc}">${rt}</span><div class="sub">${GROUPS[AD.g].name} · ${AD.types.map((t) => TYPES[t].name).join(' / ')}</div></div><button type="button" class="btn small" data-airshow="${id}">洽谈</button></div>`;
+            })
+            .join('')}</div>
+          <div class="row"><button type="button" class="btn ghost" data-act="pass">不参加</button></div>`;
+        break;
+      }
+      case 'shortfall': {
+        title = pd.reason === 'cash' ? '资金缺口' : '违反杠杆契约';
+        const items = E.sellables(S, h);
+        inner = `<div class="note bad">${pd.reason === 'cash' ? `现金为 ${m(pl.cash)}，RCF 已用尽。必须出售资产补足缺口。` : `杠杆 ${pct(E.leverage(S, h), 0)} 连续两个季度超过 85%。必须出售资产降到 80% 以下。`}</div>
+          ${sellList(pd, false)}
+          ${items
+            .filter((i) => i.kind !== 'aircraft')
+            .map((i) => `<div class="row"><button type="button" class="btn small" data-sellother="${i.kind}:${i.id}">出售 ${i.kind === 'engine' ? ENGINES[i.id].name + ' 平台' : OEMS[i.id].name + ' 订单'} ${m(i.net)}</button></div>`)
+            .join('')}`;
+        break;
+      }
+      default:
+        inner = `<div class="row"><button type="button" class="btn" data-act="pass">继续</button></div>`;
+    }
+    box.innerHTML = `<div class="panel-h"><h2>${esc(title)}</h2><span class="eyebrow">${E.qLabel(S)}</span></div><div class="panel-b">${inner}</div>`;
+  }
+
+  // ---------- 标签页 ----------
+  function renderTabs() {
+    document.querySelectorAll('#tabbar [data-tab]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.tab === ui.tab)));
+    const h = H();
+    const pane = $('#tabpane');
+    const sellable = S.pending && S.pending.p === h && ['turn', 'market', 'shortfall'].includes(S.pending.type);
+    if (ui.tab === 'fleet') {
+      const own = E.ownedAircraft(S, h).sort((a, b) => (a.lease ? a.lease.airline : 'zz').localeCompare(b.lease ? b.lease.airline : 'zz'));
+      if (!own.length) {
+        pane.innerHTML = '<div class="empty">还没有飞机。落在航司格上报价签约，或在二手平台买入。</div>';
+        return;
+      }
+      const atMarket = S.pending && S.pending.type === 'market';
+      pane.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>MSN</th><th>机型</th><th>发动机</th><th class="r">机龄</th><th>承租人</th><th>评级</th><th class="r">剩余租期</th><th class="r">LRF</th><th class="r">月租</th><th class="r">MR 余额</th><th class="r">市值</th><th class="r">贷款</th><th class="r">LTV</th><th></th></tr></thead><tbody>${own
+        .map((a) => {
+          const v = E.mv(S, a);
+          const loan = a.loan ? a.loan.principal : 0;
+          const L = a.lease;
+          const pr = E.saleProceeds(S, a, atMarket);
+          const armed = ui.confirm === a.id;
+          const [rt, rc] = L ? ratingLabel(L.airline) : ['', ''];
+          return `<tr class="${L ? '' : 'idle'}"><td class="num">${a.msn}</td><td>${TYPES[a.type].name}</td><td>${a.engine}</td><td class="num r">${E.ageNow(S, a).toFixed(1)}</td><td>${L ? esc(AIRLINES[L.airline].name) : '闲置'}</td><td>${L ? `<span class="rt ${rc}">${rt}</span>` : ''}</td><td class="num r">${L ? ((L.endQ - S.q) / 4).toFixed(1) + ' 年' : '—'}</td><td class="num r">${L ? pct(L.lrf, 3) : '—'}</td><td class="num r">${L ? (L.rentQ / 3).toFixed(2) : '—'}</td><td class="num r">${L ? L.mrBal.toFixed(1) : '—'}</td><td class="num r">${v.toFixed(1)}</td><td class="num r">${loan.toFixed(1)}</td><td class="num r">${pct(loan / v, 0)}</td>
+            <td>${sellable ? `<button type="button" class="btn small${armed ? ' primary' : ''}" data-sell="${a.id}">${armed ? '确认' : '出售'} ${m(pr.net)}</button>` : ''}</td></tr>`;
+        })
+        .join('')}</tbody></table></div>`;
+    } else if (ui.tab === 'airlines') {
+      pane.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>航司</th><th>区域</th><th>评级</th><th>主力出租人</th><th class="r">机队</th><th class="r">竞标成本</th><th>可签机型</th></tr></thead><tbody>${Object.keys(AIRLINES)
+        .map((id) => {
+          const AD = AIRLINES[id];
+          const A = S.airlines[id];
+          const [rt, rc] = ratingLabel(id);
+          const n = A.lessor != null ? E.airlineFleet(S, A.lessor, id).length : 0;
+          return `<tr><td><b>${id}</b> ${esc(AD.name)} <span style="color:var(--ink-3)">${AD.cn}</span></td><td><span class="gdot" style="--gc:var(--g-${AD.g})"></span>${GROUPS[AD.g].name}</td><td><span class="rt ${rc}">${rt}</span>${A.defaultUntil != null ? ` <small>至 ${E.qLabel(S, A.defaultUntil)}</small>` : ''}</td><td>${A.lessor != null ? `<span style="color:${pColor(A.lessor)};font-weight:600">${esc(S.players[A.lessor].name)}</span>${A.framework ? ' ★' : ''}` : '<span style="color:var(--ink-3)">开放</span>'}</td><td class="num r">${n}/${AD.cap}</td><td class="num r">${A.lessor != null ? E.landingFee(S, id).toFixed(1) : '—'}</td><td>${AD.types.map((t) => TYPES[t].name).join(' / ')}${AD.engine ? ` <small>(${AD.engine})</small>` : ''}</td></tr>`;
+        })
+        .join('')}</tbody></table></div>`;
+    } else if (ui.tab === 'market') {
+      const mk = S.market;
+      pane.innerHTML = `<p class="dec-sub">SOFR ${pct(mk.sofr, 2)} · 周期 ${CYCLES[mk.cycle].name}${mk.deferral ? ` · 租金延付还剩 ${mk.deferral} 季度` : ''}${mk.capeTown ? ' · 开普敦公约强化（收回成本减半）' : ''}${S.q < mk.maxFrozenUntil ? ` · MAX 交付位冻结至 ${E.qLabel(S, mk.maxFrozenUntil)}` : ''}${mk.sanctionDone ? ' · 对俄制裁生效' : ''}</p>
+        <div class="tbl-wrap"><table><thead><tr><th>机型</th><th>类别</th><th>主机厂</th><th class="r">机龄</th><th class="r">当前价值</th><th class="r">价值指数</th><th class="r">市场 LRF（BBB，8 年）</th><th class="r">月租</th><th>发动机</th></tr></thead><tbody>${Object.keys(TYPES)
+          .map((t) => {
+            const T = TYPES[t];
+            const v = E.typeValue(S, t, T.age0, T.engines[0]);
+            const term = T.age0 ? 5 : 8;
+            const lrf = T.lrf * CYCLES[mk.cycle].lrf * (1 + (mk.sofr - 0.035) * 6) * (term === 5 ? 1.02 : 1);
+            const idx = mk.idx[t];
+            return `<tr><td><b>${T.name}</b></td><td>${{ NB: '窄体', WB: '宽体', RJ: '支线喷气', TP: '涡桨' }[T.cat]}</td><td>${T.oem ? OEMS[T.oem].name : 'ATR'}</td><td class="num r">${T.age0}</td><td class="num r">${v.toFixed(1)}</td><td class="num r" style="color:${idx >= 1 ? 'var(--good)' : 'var(--bad)'}">${idx.toFixed(3)}</td><td class="num r">${pct(lrf, 3)}</td><td class="num r">${(v * lrf).toFixed(2)}</td><td>${T.engines.map((e) => (D.GTF.includes(e) ? `${e} <small>(${(mk.eng[e] * 100).toFixed(0)}%)</small>` : e)).join(' / ')}</td></tr>`;
+          })
+          .join('')}</tbody></table></div>`;
+    } else if (ui.tab === 'reports') {
+      const rows = S.reports.slice().reverse();
+      if (!rows.length) {
+        pane.innerHTML = '<div class="empty">第一个季度结束后生成季报。</div>';
+        return;
+      }
+      pane.innerHTML = `<div class="tbl-wrap"><table><thead><tr><th>季度</th><th class="r">租金</th><th class="r">MR 收入</th><th class="r">利息</th><th class="r">本金摊还</th><th class="r">闲置仓储</th><th class="r">备发收入</th><th class="r">续租/退租</th><th class="r">期末现金</th><th class="r">杠杆</th><th class="r">NAV</th></tr></thead><tbody>${rows
+        .map((r) => {
+          const x = r.players[h];
+          if (!x) return '';
+          return `<tr><td class="num">${r.label}</td><td class="num r">${x.rent.toFixed(2)}</td><td class="num r">${x.mr.toFixed(2)}</td><td class="num r">${x.interest.toFixed(2)}</td><td class="num r">${x.amort.toFixed(2)}</td><td class="num r">${x.storage.toFixed(2)}</td><td class="num r">${x.engine.toFixed(2)}</td><td class="num r">${x.extended}/${x.returned}</td><td class="num r">${x.cash.toFixed(1)}</td><td class="num r">${pct(x.lev, 0)}</td><td class="num r"><b>${x.nav.toFixed(1)}</b></td></tr>`;
+        })
+        .join('')}</tbody></table></div>`;
+    } else {
+      pane.innerHTML = RULES;
+    }
+  }
+
+  const RULES = `<div class="rules">
+    <h3>目标</h3><p>你是一家飞机租赁公司的销售。和 AerCap、SMBC Aviation Capital、Avolon、BOC Aviation 竞争，把飞机租给全球 25 家航司。每一轮（所有公司各走一次）是一个季度，默认打满 10 年，比<b>公司净资产 NAV</b>：</p>
+    <p><code>NAV = 现金 − RCF + Σ飞机市值 − Σ贷款 − Σ保证金 − ΣMR 余额 − 搁浅债务 + 应收保险 + 备发平台 + 交付位</code></p>
+    <h3>大富翁对照</h3>
+    <div class="tbl-wrap"><table><tbody>
+      <tr><td>地产 / 颜色组</td><td>航司 / 9 个区域</td></tr>
+      <tr><td>买地</td><td>报价签约，成为该航司的主力出租人（其他人无法再签）</td></tr>
+      <tr><td>盖房子 / 酒店</td><td>追加飞机（每家航司有上限）/ 长期框架协议 ★</td></tr>
+      <tr><td>集齐颜色</td><td>区域主力出租人：竞标成本 ×1.5，回合开始可远程加机</td></tr>
+      <tr><td>收租</td><td>对手落在你的航司：付「竞标失败成本」= 0.9 × 你在该航司的季度租金 × 区域系数</td></tr>
+      <tr><td>火车站</td><td>4 家主机厂交付位订单；用交付位购机 −12%</td></tr>
+      <tr><td>水电公司</td><td>CFM / 普惠备发租赁平台</td></tr>
+      <tr><td>起点 / 监狱 / 免费停车</td><td>都柏林 / 合规审查 / 航展</td></tr>
+    </tbody></table></div>
+    <h3>签约</h3>
+    <ul>
+      <li><b>来源</b>：现货（市值 +2%）、SLB（市值，LRF −4%，成交 +12%）、自有交付位（市值 −12%）、闲置飞机（交接成本 1%）。</li>
+      <li><b>租金</b>：<code>月租 = 飞机价值 × LRF</code>。市场 LRF 由机型基准、航司信用溢价（A −6% … CCC +22%）、周期、租期和 SOFR 决定。租金在租期内<b>固定</b>，而贷款是浮动利率，所以加息会压缩利差。</li>
+      <li><b>成交概率</b>：以市场 LRF 报价约 55%；每高 1% 降约 7 个百分点。弱信用航司、区域主力、框架协议、长租期、同行转介都会加成。被拒后可降价再报一次。</li>
+      <li><b>保证金</b>：签约时收取 2 个月租金，退租时返还；违约时没收。<b>MR</b>：每季度按租金 12–20% 收取，退租时支付 70% 作为维修补偿，其余为收益。</li>
+    </ul>
+    <h3>融资</h3>
+    <ul>
+      <li>银行担保贷款：LTV ≤ 75%，SOFR + 200bp，季度摊还 1.2%。</li>
+      <li>无担保债券：需投资级（杠杆 &lt; 65% 且机队 ≥ 6 架），LTV ≤ 70%，SOFR + 140bp。</li>
+      <li>ECA 担保：仅新机（不含 C919），LTV ≤ 85%，SOFR + 110bp，但前端保费 4%，摊还 1.8%/季。</li>
+      <li>RCF：现金不足时自动提取，现金超过 $15m 时季末自动偿还。<b>契约</b>：杠杆（债务 / 资产）连续两季超过 85% 时必须卖机降杠杆。</li>
+    </ul>
+    <h3>信用与风险</h3>
+    <ul>
+      <li>每季度按评级抽违约：A 0.1%、BBB 0.3%、BB 0.8%、B 2%、CCC 4.5%，下行周期 ×1.6，危机 ×2.5。</li>
+      <li>违约后飞机被收回（收回与整修成本为市值的 4%），保证金和 MR 余额归你，航司进入 4 个季度重组后以 B 级重新开放。</li>
+      <li>每年年末航司评级迁移；租约到期时约 50% 续租（框架协议 +30%），否则飞机退回闲置，每季度仓储成本为市值的 0.4%。</li>
+      <li>飞机价值 = 新机价 × e<sup>−k·机龄</sup> × 机型指数。指数随周期和事件波动；GTF 发动机的飞机价值再打 98 折。</li>
+    </ul>
+    <h3>小技巧</h3>
+    <ul>
+      <li>CCC 航司收益最高，但十年内大概率违约。高收益航司的保证金和 MR 是违约时的缓冲。</li>
+      <li>ECA 杠杆最高但摊还快，吃现金；无担保最便宜，需先把杠杆做低。</li>
+      <li>危机时二手机价格低，是买入闲置库存的机会；繁荣时在交易平台卖出带租约的飞机锁定收益。</li>
+    </ul>
+  </div>`;
+
+  // ---------- 覆盖层 ----------
+  function showSetup() {
+    const saved = loadSave();
+    const canResume = saved && !saved.over && saved.players && saved.v === 1;
+    const aiKeys = Object.keys(D.AI_PROFILES);
+    const sel = new Set(['aercap', 'smbc', 'avolon']);
+    const ov = $('#overlay');
+    ov.innerHTML = `<div class="overlay"><form class="sheet" id="setup">
+      <div><div class="en">LESSOR TYCOON</div><h2>租赁大亨</h2></div>
+      <p>你是一家飞机租赁公司的销售，要在全球 25 家航司间出租飞机。掷骰子绕航线图行进，报价签约、安排融资、应对违约和周期，10 年后比公司净资产。</p>
+      <div class="field"><label for="f-name">你的公司名称</label><input type="text" id="f-name" maxlength="16" value="长空租赁"></div>
+      <div class="field"><span class="eyebrow">对手（选 1–3 家）</span><div class="chips" id="f-ai">${aiKeys.map((k) => `<button type="button" class="chip" data-ai="${k}" aria-pressed="${sel.has(k)}">${D.AI_PROFILES[k].name}</button>`).join('')}</div></div>
+      <div class="field"><span class="eyebrow">游戏时长</span><div class="chips" id="f-years">${[5, 8, 10, 12].map((y) => `<button type="button" class="chip" data-years="${y}" aria-pressed="${y === 10}">${y} 年</button>`).join('')}</div></div>
+      <div class="field"><label for="f-seed">随机种子（可选，同一种子开局相同）</label><input type="number" id="f-seed" placeholder="留空随机"></div>
+      <div class="row"><button type="submit" class="btn primary big">开始新游戏</button>${canResume ? `<button type="button" class="btn big" id="f-resume">继续存档（${E.qLabel(saved)}）</button>` : ''}${S ? '<button type="button" class="btn ghost" id="f-close">取消</button>' : ''}</div>
+    </form></div>`;
+    let years = 10;
+    ov.querySelector('#f-ai').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-ai]');
+      if (!b) return;
+      const k = b.dataset.ai;
+      if (sel.has(k)) {
+        if (sel.size > 1) sel.delete(k);
+      } else if (sel.size < 3) sel.add(k);
+      ov.querySelectorAll('[data-ai]').forEach((x) => x.setAttribute('aria-pressed', String(sel.has(x.dataset.ai))));
+    });
+    ov.querySelector('#f-years').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-years]');
+      if (!b) return;
+      years = +b.dataset.years;
+      ov.querySelectorAll('[data-years]').forEach((x) => x.setAttribute('aria-pressed', String(+x.dataset.years === years)));
+    });
+    ov.querySelector('#setup').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = ($('#f-name').value || '长空租赁').trim().slice(0, 16) || '长空租赁';
+      const seedV = $('#f-seed').value;
+      const players = [{ name, human: true }, ...aiKeys.filter((k) => sel.has(k)).map((k) => ({ ai: k }))];
+      startGame({ players, years, seed: seedV !== '' ? +seedV : undefined });
+    });
+    const r = ov.querySelector('#f-resume');
+    if (r)
+      r.addEventListener('click', () => {
+        S = saved;
+        ov.innerHTML = '';
+        fullRender();
+        pump();
+      });
+    const c = ov.querySelector('#f-close');
+    if (c) c.addEventListener('click', () => (ov.innerHTML = ''));
+  }
+  function showResults() {
+    const h = H();
+    const ranked = S.players.map((p) => ({ p, nav: p.bankrupt ? null : E.nav(S, p.id) })).sort((a, b) => (b.nav ?? -1e9) - (a.nav ?? -1e9));
+    const pos = ranked.findIndex((r) => r.p.id === h) + 1;
+    const me = S.players[h];
+    $('#overlay').innerHTML = `<div class="overlay"><div class="sheet">
+      <div><div class="en">FINAL · ${E.qLabel(S, S.q - 1)}</div><h2>${pos === 1 ? '你赢了。' : `你排名第 ${pos}。`}</h2></div>
+      <div class="rank">${ranked.map((r, i) => `<div><span class="pos">${i + 1}</span><span><b style="color:${pColor(r.p.id)}">${esc(r.p.name)}</b>${r.p.human ? ' · 你' : ''}<br><small class="mono">签约 ${r.p.stats.deals} 单 · 租金 ${m(r.p.stats.rent, 0)} · 竞标成本收入 ${m(r.p.stats.feeIn, 0)} · 违约影响 ${r.p.stats.defaultsHit} 次</small></span><b class="mono">${r.nav == null ? '破产' : m(r.nav)}</b></div>`).join('')}</div>
+      <p>你签了 ${me.stats.deals} 单（报价 ${me.stats.bids} 次），累计租金 ${m(me.stats.rent)}，利息 ${m(me.stats.interest)}，出售飞机 ${me.stats.sold} 架。</p>
+      <div class="row"><button type="button" class="btn primary" id="r-new">再来一局</button><button type="button" class="btn ghost" id="r-close">查看棋盘</button></div>
+    </div></div>`;
+    $('#r-new').addEventListener('click', showSetup);
+    $('#r-close').addEventListener('click', () => ($('#overlay').innerHTML = ''));
+  }
+
+  function startGame(opts) {
+    S = E.newGame(opts);
+    E.advance(S);
+    ui.deal = null;
+    ui.lastEvents = 0;
+    $('#overlay').innerHTML = '';
+    save();
+    fullRender();
+    pump();
+  }
+
+  // ---------- 渲染入口 ----------
+  function render() {
+    if (!S) return;
+    renderBoard();
+    renderMe();
+    renderPlayers();
+    renderLog();
+    renderDecision();
+    renderTabs();
+    document.querySelectorAll('#speed [data-speed]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.speed === ui.speed)));
+    if (S.over && !ui.shownResults) {
+      ui.shownResults = true;
+      showResults();
+    }
+    if (!S.over) ui.shownResults = false;
+  }
+  function fullRender() {
+    buildBoard();
+    render();
+  }
+
+  // ---------- 事件 ----------
+  function armOrDo(id, fn) {
+    if (ui.confirm === id) {
+      ui.confirm = null;
+      fn();
+    } else {
+      ui.confirm = id;
+      render();
+      setTimeout(() => {
+        if (ui.confirm === id) {
+          ui.confirm = null;
+          render();
+        }
+      }, 3500);
+    }
+  }
+  function sellClick(id) {
+    const pd = S.pending;
+    if (!pd || pd.p !== H()) return;
+    armOrDo(id, () => {
+      if (pd.type === 'shortfall') doAct({ action: 'sell', aircraftId: id });
+      else if (pd.type === 'market') doAct({ action: 'sell', aircraftId: id });
+      else if (pd.type === 'turn') doAct({ action: 'sell', aircraftId: id });
+    });
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!S) return;
+    const t = e.target.closest('button');
+    if (!t || t.disabled) return;
+    const pd = S.pending;
+    if (t.dataset.tab) {
+      ui.tab = t.dataset.tab;
+      savePrefs();
+      renderTabs();
+      return;
+    }
+    if (t.dataset.speed) {
+      ui.speed = t.dataset.speed;
+      savePrefs();
+      render();
+      pump();
+      return;
+    }
+    if (t.id === 'btn-new') {
+      showSetup();
+      return;
+    }
+    if (t.dataset.sell) return sellClick(t.dataset.sell);
+    if (t.dataset.act === 'results') return showResults();
+    if (t.dataset.act === 'newgame') return showSetup();
+    if (!pd || pd.p !== H()) return;
+    if (t.dataset.deal) {
+      const k = t.dataset.deal;
+      let v = t.dataset.val;
+      if (k === 'term') v = +v;
+      ui.deal[k] = v;
+      if (k === 'finance') {
+        const f = E.financeTerms(S, H(), v, true, ui.deal.type);
+        ui.deal.ltv = f.maxLtv;
+      }
+      renderDecision();
+      return;
+    }
+    if (t.dataset.remote) return doAct({ action: 'remote', airline: t.dataset.remote });
+    if (t.dataset.airshow) return doAct({ action: 'visit', airline: t.dataset.airshow });
+    if (t.dataset.buyused) return doAct({ action: 'buy', type: t.dataset.buyused });
+    if (t.dataset.sellother) {
+      const [kind, id] = t.dataset.sellother.split(':');
+      return armOrDo('o' + id, () => doAct({ action: kind === 'engine' ? 'sellEngine' : 'sellOem', id }));
+    }
+    const a = t.dataset.act;
+    if (!a) return;
+    switch (a) {
+      case 'roll':
+        return doAct({ action: 'roll' });
+      case 'repay':
+        return doAct({ action: 'repay', amount: Math.min(S.players[H()].rcf, S.players[H()].cash) });
+      case 'pass':
+        return doAct({ action: 'pass' });
+      case 'sign':
+        return doAct({ action: 'sign', ...ui.deal });
+      case 'framework':
+        return doAct({ action: 'framework' });
+      case 'buyout': {
+        const seller = S.airlines[pd.airline].lessor;
+        const fair = E.positionValue(S, seller, pd.airline);
+        return doAct({ action: 'buyout', price: Math.round(Math.max(0.5, fair * ui.buyRatio) * 10) / 10 });
+      }
+      case 'accept':
+        return doAct({ action: 'accept' });
+      case 'reject':
+        return doAct({ action: 'reject' });
+      case 'oem-buy':
+        return doAct({ action: 'buy' });
+      case 'oem-top1':
+        return doAct({ action: 'topup', n: 1 });
+      case 'oem-top2':
+        return doAct({ action: 'topup', n: 2 });
+      case 'engine-buy':
+        return doAct({ action: 'buy' });
+      case 'jail-roll':
+        return doAct({ action: 'roll' });
+      case 'jail-pay':
+        return doAct({ action: 'pay' });
+      case 'jail-card':
+        return doAct({ action: 'card' });
+    }
+  });
+  document.addEventListener('input', (e) => {
+    if (!S || !S.pending) return;
+    const pd = S.pending;
+    if (e.target.id === 'ratio' && ui.deal) {
+      ui.deal.ratio = +e.target.value;
+      updateQuoteOnly(pd);
+    } else if (e.target.id === 'ltv' && ui.deal) {
+      ui.deal.ltv = +e.target.value;
+      updateQuoteOnly(pd);
+    } else if (e.target.id === 'buy') {
+      ui.buyRatio = +e.target.value;
+      const seller = S.airlines[pd.airline].lessor;
+      const fair = E.positionValue(S, seller, pd.airline);
+      $('#buy-out').textContent = pct(ui.buyRatio, 0);
+      $('#buy-price').textContent = m(Math.max(0.5, fair * ui.buyRatio));
+    } else if (e.target.id === 'log-mine') {
+      ui.logMine = e.target.checked;
+      renderLog();
+    }
+  });
+
+  // ---------- 启动 ----------
+  loadPrefs();
+  const saved = loadSave();
+  if (saved && !saved.over && saved.v === 1) {
+    S = saved;
+    fullRender();
+    pump();
+  } else {
+    // 先放一局示例开局在背后，让首屏不是空棋盘
+    S = E.newGame({ seed: 20270101 });
+    E.advance(S);
+    fullRender();
+    S = null;
+    showSetup();
+    // showSetup 之后若用户取消，S 为空；保留示例棋盘渲染
+  }
+  window.__LT_UI = { get state() { return S; }, doAct, render };
+})();
+
+</script>
+
+</body>
+</html>
