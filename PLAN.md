@@ -33,5 +33,5 @@
 - 胜负：到期比 NAV（现金 + 机队市值 − 债务 − 保证金 − MR 负债 + 其他资产）
 
 ## 状态（2026-09-26）
-- L1–L5 全部完成（存档 = 浏览器 localStorage）。已发布：https://claude.ai/artifact/WTHzvNtqiiQWkywBe7PJ6s
+- L1–L5 全部完成（存档 = 浏览器 localStorage）。
 - 常用命令：`node tools/sim.js 200`（AI 对局测试）、`HUMAN=1 node tools/sim.js 200`（含人类座位路径）、`node tools/build.js`（生成 dist/）
